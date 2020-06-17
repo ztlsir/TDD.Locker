@@ -12,7 +12,7 @@ public class Locker {
 
     public Locker(boolean isFull) {
         this.isFull = isFull;
-        this.tickets=new ArrayList<String>();
+        this.tickets = new ArrayList<String>();
     }
 
     public String savePackage() {
@@ -20,7 +20,7 @@ public class Locker {
             throw new RuntimeException(savePackageFailedErrorMessage);
         }
 
-        String ticket="1";
+        String ticket = createTicket();
         this.tickets.add(ticket);
 
         return ticket;
@@ -30,5 +30,9 @@ public class Locker {
         if (!this.tickets.remove(ticket)) {
             throw new RuntimeException(ilLegalTicketErrorMessage);
         }
+    }
+
+    private String createTicket() {
+        return "1";
     }
 }
