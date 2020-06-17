@@ -12,6 +12,9 @@ todo:Given 一张伪造票据 When 取包 Then 取包失败，提示非法票据
 todo:Given 一张已取过包的票据 When 取包 Then 取包失败，提示非法票据
 */
 public class LockerTest {
+
+    public static final String savePackageFailedErrorMessage = "存包失败";
+
     @Test
     public void should_return_ticket_when_save_package_given_locker_is_not_full()
     {
@@ -21,5 +24,17 @@ public class LockerTest {
 
         assertNotNull(ticket);
         assertNotEquals("",ticket);
+    }
+
+    @Test
+    public void should_throw_save_failed_exception_when_save_package_given_locker_is_full()
+    {
+        Locker locker=new Locker(true);
+
+        Exception exception = assertThrows(
+                RuntimeException.class,
+                () -> locker.savePackage());
+
+        assertEquals(savePackageFailedErrorMessage, exception.getMessage());
     }
 }
