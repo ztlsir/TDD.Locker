@@ -1,35 +1,37 @@
 package com.ztlsir;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class Locker {
     private static final String savePackageFailedErrorMessage = "存包失败";
     private static final String ilLegalTicketErrorMessage = "非法票据";
 
     private boolean isFull;
-    private List<String> tickets;
+    private HashMap<String, Pack> tickets;
 
     public Locker(boolean isFull) {
         this.isFull = isFull;
-        this.tickets = new ArrayList<String>();
+        this.tickets = new HashMap<String, Pack>();
     }
 
-    public String savePackage() {
+    public String savePackage(Pack pack) {
         if (this.isFull) {
             throw new RuntimeException(savePackageFailedErrorMessage);
         }
 
         String ticket = createTicket();
-        this.tickets.add(ticket);
+        this.tickets.put(ticket, pack);
 
         return ticket;
     }
 
-    public void takePackage(String ticket) {
-        if (!this.tickets.remove(ticket)) {
+    public Pack takePackage(String ticket) {
+        Pack pack = this.tickets.remove(ticket);
+        if (pack == null) {
             throw new RuntimeException(ilLegalTicketErrorMessage);
         }
+
+        return pack;
     }
 
     private String createTicket() {

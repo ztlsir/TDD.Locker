@@ -20,8 +20,7 @@ public class LockerTest {
     public void should_return_ticket_when_save_package_given_locker_is_not_full()
     {
         Locker locker=new Locker(false);
-
-        String ticket=locker.savePackage();
+        String ticket=locker.savePackage(new Pack());
 
         assertNotNull(ticket);
         assertNotEquals("",ticket);
@@ -34,18 +33,21 @@ public class LockerTest {
 
         Exception exception = assertThrows(
                 RuntimeException.class,
-                () -> locker.savePackage());
+                () -> locker.savePackage(new Pack()));
 
         assertEquals(savePackageFailedErrorMessage, exception.getMessage());
     }
 
     @Test
-    public void should_be_success_when_take_package_given_useful_ticket()
+    public void should_take_package_of_ticket_when_take_package_given_useful_ticket()
     {
         Locker locker=new Locker(false);
-        String ticket=locker.savePackage();
+        Pack preSavePack=new Pack();
+        String ticket=locker.savePackage(preSavePack);
 
-        locker.takePackage(ticket);
+        Pack pack=locker.takePackage(ticket);
+
+        assertEquals(preSavePack,pack);
     }
 
     @Test
@@ -64,7 +66,7 @@ public class LockerTest {
     public void should_throw_take_failed_exception_when_take_package_given_has_taken_ticket()
     {
         Locker locker=new Locker(false);
-        String ticket=locker.savePackage();
+        String ticket=locker.savePackage(new Pack());
         locker.takePackage(ticket);
 
         Exception exception = assertThrows(
