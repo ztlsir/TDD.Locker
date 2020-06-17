@@ -1,0 +1,18 @@
+plugins {
+	id 'java'
+	id 'idea'
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testImplementation 'junit:junit:4.13'
+}
+
+test {
+	useJUnitPlatform()
+}
