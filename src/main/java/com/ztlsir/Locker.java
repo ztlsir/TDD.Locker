@@ -16,4 +16,8 @@ public class Locker {
 
         return "1";
     }
+
+    public boolean takePackage(String ticket) {
+        return true;
+    }
 }
