@@ -37,4 +37,8 @@ public class Locker {
     private String createTicket() {
         return "1";
     }
+
+    public boolean isNotFull() {
+        return !this.isFull;
+    }
 }

@@ -10,6 +10,12 @@ public class PrimaryLockerRobot {
     }
 
     public String savePackage(Pack pack) {
-        return lockers.get(0).savePackage(pack);
+        for (Locker locker : lockers) {
+            if (locker.isNotFull()) {
+                return locker.savePackage(pack);
+            }
+        }
+
+        return null;
     }
 }
