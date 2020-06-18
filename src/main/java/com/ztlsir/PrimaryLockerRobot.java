@@ -20,4 +20,14 @@ public class PrimaryLockerRobot {
 
         throw new RuntimeException(savePackageFailedErrorMessage);
     }
+
+    public Pack takePackage(String ticket) {
+        for (Locker locker : lockers) {
+            if (locker.isNotFull()) {
+                return locker.takePackage(ticket);
+            }
+        }
+
+        return null;
+    }
 }

@@ -39,7 +39,7 @@ public class LockerTest {
     }
 
     @Test
-    public void should_take_package_of_ticket_when_take_package_given_useful_ticket()
+    public void should_take_package_by_ticket_when_take_package_given_useful_ticket()
     {
         Locker locker=new Locker(false);
         Pack preSavePack=new Pack();

@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Given 机器人管理2个储物柜，第1个储物柜已满，第2个储物柜未满 When 存包 Then 获得一张有效票据，包存到第2个储物柜
  * Given 机器人管理2个储物柜，第1个储物柜未满，第2个储物柜已满 When 存包 Then 获得一张有效票据，包存到第1个储物柜
  * Given 机器人管理2个储物柜，2个储物柜都已满 When 存包 Then 提示存包失败
- *todo Given 一张有效票据 When 取包 Then 取包成功
+ * Given 一张有效票据 When 取包 Then 取包成功
  *todo Given 一张伪造票据 When 取包 Then 取包失败，提示非法票据
  *todo Given 一张已取过包的票据 When 取包 Then 取包失败，提示非法票据
  * */
@@ -70,5 +70,27 @@ public class PrimaryLockerRobotTest {
                 () -> primaryLockerRobot.savePackage(preSavePack));
 
         assertEquals(savePackageFailedErrorMessage, exception.getMessage());
+    }
+
+    @Test
+    public void should_take_package_by_ticket_when_take_package_given_useful_ticket_and_package_save_in_1st_locker() {
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(false), new Locker(false)));
+        Pack preSavePack = new Pack();
+        String ticket = primaryLockerRobot.savePackage(preSavePack);
+
+        Pack pack = primaryLockerRobot.takePackage(ticket);
+
+        assertEquals(preSavePack, pack);
+    }
+
+    @Test
+    public void should_take_package_by_ticket_when_take_package_given_useful_ticket_and_package_save_in_2st_locker() {
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), new Locker(false)));
+        Pack preSavePack = new Pack();
+        String ticket = primaryLockerRobot.savePackage(preSavePack);
+
+        Pack pack = primaryLockerRobot.takePackage(ticket);
+
+        assertEquals(preSavePack, pack);
     }
 }
