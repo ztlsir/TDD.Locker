@@ -3,6 +3,8 @@ package com.ztlsir;
 import java.util.List;
 
 public class PrimaryLockerRobot {
+    private static final String savePackageFailedErrorMessage = "存包失败";
+
     private final List<Locker> lockers;
 
     public PrimaryLockerRobot(List<Locker> lockers) {
@@ -16,6 +18,6 @@ public class PrimaryLockerRobot {
             }
         }
 
-        return null;
+        throw new RuntimeException(savePackageFailedErrorMessage);
     }
 }
