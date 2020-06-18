@@ -41,4 +41,8 @@ public class Locker {
     public boolean isNotFull() {
         return !this.isFull;
     }
+
+    public boolean isSaved(String ticket) {
+        return this.tickets.containsKey(ticket);
+    }
 }
