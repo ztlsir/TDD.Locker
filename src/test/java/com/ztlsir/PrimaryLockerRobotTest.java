@@ -99,8 +99,6 @@ public class PrimaryLockerRobotTest {
     public void should_throw_take_failed_exception_when_take_package_given_fake_ticket()
     {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), new Locker(false)));
-        Pack preSavePack = new Pack();
-        String ticket = primaryLockerRobot.savePackage(preSavePack);
 
         Exception exception = assertThrows(
                 RuntimeException.class,
