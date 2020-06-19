@@ -17,10 +17,6 @@ Given 储物柜没满 When 连续存两个不同的包 Then 获得两张有效�
 Given 两张有效票据 When 取包 Then 成功取到每张票据对应的包
 */
 public class LockerTest {
-
-    private static final String lockerFullErrorMessage = "储物柜已满";
-    private static final String ilLegalTicketErrorMessage = "非法票据";
-
     @Test
     public void should_return_ticket_when_save_package_given_locker_is_not_full() {
         Locker locker = createAvailableLocker();

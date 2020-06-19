@@ -28,6 +28,6 @@ public class SmartLockerRoot {
             }
         }
 
-        return null;
+        throw new IlLegalTicketException();
     }
 }

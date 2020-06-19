@@ -19,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * Given 一张已取过包的票据 When 取包 Then 取包失败，提示非法票据
  * */
 public class PrimaryLockerRobotTest {
-    private static final String lockerFullErrorMessage = "储物柜已满";
-    private static final String ilLegalTicketErrorMessage = "非法票据";
 
     @Test
     public void should_save_in_1st_locker_and_return_ticket_when_save_package_given_robot_manage_two_lockers_and_both_is_not_full() {
