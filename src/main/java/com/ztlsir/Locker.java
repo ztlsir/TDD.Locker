@@ -8,11 +8,15 @@ import java.util.UUID;
 
 public class Locker {
     private boolean isFull;
-    private HashMap<Ticket, Pack> tickets;
+    private HashMap<Ticket, Pack> packs;
 
     public Locker(boolean isFull) {
         this.isFull = isFull;
-        this.tickets = new HashMap<Ticket, Pack>();
+        this.packs = new HashMap<Ticket, Pack>();
+    }
+
+    public Locker(int capacity) {
+        this.packs = new HashMap<Ticket, Pack>();
     }
 
     public Ticket savePackage(Pack pack) {
@@ -21,13 +25,13 @@ public class Locker {
         }
 
         Ticket ticket = createTicket();
-        this.tickets.put(ticket, pack);
+        this.packs.put(ticket, pack);
 
         return ticket;
     }
 
     public Pack takePackage(Ticket ticket) {
-        Pack pack = this.tickets.remove(ticket);
+        Pack pack = this.packs.remove(ticket);
         if (pack == null) {
             throw new IlLegalTicketException();
         }
@@ -44,6 +48,6 @@ public class Locker {
     }
 
     public boolean isSaved(Ticket ticket) {
-        return this.tickets.containsKey(ticket);
+        return this.packs.containsKey(ticket);
     }
 }
