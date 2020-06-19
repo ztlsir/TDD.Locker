@@ -4,7 +4,7 @@
 ## Locker Tasking
 Given 储物柜没满 When 存包 Then 获得一张有效票据
 
-Given 储物柜已满 When 存包 Then 提示存包失败
+Given 储物柜已满 When 存包 Then 存包失败，提示储物柜已满
 
 Given 一张有效票据 When 取包 Then 取包成功
 

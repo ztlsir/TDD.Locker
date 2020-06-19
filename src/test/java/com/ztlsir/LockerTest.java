@@ -1,5 +1,6 @@
 package com.ztlsir;
 
+import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.Test;
 
 import static com.ztlsir.fixture.LockerFixture.assertTicketNotEmpty;
@@ -7,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /*
 Given 储物柜没满 When 存包 Then 获得一张有效票据
-Given 储物柜已满 When 存包 Then 提示存包失败
+Given 储物柜已满 When 存包 Then 存包失败，提示储物柜已满
 Given 一张有效票据 When 取包 Then 成功取到票据对应的包
 Given 一张伪造票据 When 取包 Then 取包失败，提示非法票据
 Given 一张已取过包的票据 When 取包 Then 取包失败，提示非法票据
@@ -16,7 +17,7 @@ Given 两张有效票据 When 取包 Then 成功取到每张票据对应的包
 */
 public class LockerTest {
 
-    private static final String savePackageFailedErrorMessage = "存包失败";
+    private static final String lockerFullErrorMessage = "储物柜已满";
     private static final String ilLegalTicketErrorMessage = "非法票据";
 
     @Test
@@ -29,14 +30,13 @@ public class LockerTest {
     }
 
     @Test
-    public void should_throw_save_failed_exception_when_save_package_given_locker_is_full() {
+    public void should_throw_locker_full_exception_when_save_package_given_locker_is_full() {
         Locker locker = new Locker(true);
 
-        Exception exception = assertThrows(
-                RuntimeException.class,
+        LockerFullException exception = assertThrows(
+                LockerFullException.class,
                 () -> locker.savePackage(new Pack()));
-
-        assertEquals(savePackageFailedErrorMessage, exception.getMessage());
+        assertEquals(lockerFullErrorMessage, exception.getMessage());
     }
 
     @Test

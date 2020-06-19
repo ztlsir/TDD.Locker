@@ -1,5 +1,7 @@
 package com.ztlsir;
 
+import com.ztlsir.exception.LockerFullException;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -17,7 +19,7 @@ public class Locker {
 
     public Ticket savePackage(Pack pack) {
         if (this.isFull) {
-            throw new RuntimeException(savePackageFailedErrorMessage);
+            throw new LockerFullException();
         }
 
         Ticket ticket = createTicket();
