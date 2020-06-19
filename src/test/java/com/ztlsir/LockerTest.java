@@ -11,7 +11,7 @@ Given 一张有效票据 When 取包 Then 成功取到票据对应的包
 Given 一张伪造票据 When 取包 Then 取包失败，提示非法票据
 Given 一张已取过包的票据 When 取包 Then 取包失败，提示非法票据
 Given 储物柜没满 When 连续存两个不同的包 Then 获得两张有效票据
-todo Given 两张有效票据 When 取包 Then 成功取到每张票据对应的包
+Given 两张有效票据 When 取包 Then 成功取到每张票据对应的包
 */
 public class LockerTest {
 
@@ -86,5 +86,21 @@ public class LockerTest {
         assertNotNull(secondTicket);
         assertNotEquals("", secondTicket);
         assertNotEquals(firstTicket, secondTicket);
+    }
+
+    @Test
+    public void should_take_two_package_by_two_ticket_when_take_package_given_two_ticket_is_valid() {
+        Locker locker = new Locker(false);
+        Pack firstPreSavePack = new Pack();
+        String firstTicket = locker.savePackage(firstPreSavePack);
+        Pack secondPreSavePack = new Pack();
+        String secondTicket = locker.savePackage(secondPreSavePack);
+
+        Pack firstPack = locker.takePackage(firstTicket);
+        Pack secondPack = locker.takePackage(secondTicket);
+
+        assertEquals(firstPreSavePack, firstPack);
+        assertEquals(secondPreSavePack, secondPack);
+        assertNotEquals(firstPack, secondPack);
     }
 }
