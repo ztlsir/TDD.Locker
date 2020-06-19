@@ -1,4 +1,4 @@
-package com.ztlsir;
+package com.ztlsir.exception;
 
 public class IlLegalTicketException extends RuntimeException {
     public IlLegalTicketException() {

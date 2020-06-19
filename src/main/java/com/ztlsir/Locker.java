@@ -1,5 +1,6 @@
 package com.ztlsir;
 
+import com.ztlsir.exception.IlLegalTicketException;
 import com.ztlsir.exception.LockerFullException;
 
 import java.util.HashMap;
