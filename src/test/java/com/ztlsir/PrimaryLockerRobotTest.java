@@ -77,7 +77,7 @@ public class PrimaryLockerRobotTest {
         Pack preSavePack = new Pack();
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
-        Pack pack = primaryLockerRobot.takePackage(ticket);
+        Pack pack = primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
 
         assertEquals(preSavePack, pack);
     }
@@ -88,7 +88,7 @@ public class PrimaryLockerRobotTest {
         Pack preSavePack = new Pack();
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
-        Pack pack = primaryLockerRobot.takePackage(ticket);
+        Pack pack = primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
 
         assertEquals(preSavePack, pack);
     }
@@ -111,11 +111,11 @@ public class PrimaryLockerRobotTest {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(false), new Locker(false)));
         Pack preSavePack = new Pack();
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
-        primaryLockerRobot.takePackage(ticket);
+        primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
 
         Exception exception = assertThrows(
                 RuntimeException.class,
-                () -> primaryLockerRobot.takePackage(ticket));
+                () -> primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo())));
 
         assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
     }
@@ -126,11 +126,11 @@ public class PrimaryLockerRobotTest {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), new Locker(false)));
         Pack preSavePack = new Pack();
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
-        primaryLockerRobot.takePackage(ticket);
+        primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
 
         Exception exception = assertThrows(
                 RuntimeException.class,
-                () -> primaryLockerRobot.takePackage(ticket));
+                () -> primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo())));
 
         assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
     }

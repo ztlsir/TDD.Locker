@@ -45,7 +45,7 @@ public class LockerTest {
         Pack preSavePack = new Pack();
         Ticket ticket = locker.savePackage(preSavePack);
 
-        Pack pack = locker.takePackage(ticket);
+        Pack pack = locker.takePackage(new Ticket(ticket.getSerialNo()));
 
         assertEquals(preSavePack, pack);
     }
@@ -65,11 +65,11 @@ public class LockerTest {
     public void should_throw_take_failed_exception_when_take_package_given_has_taken_ticket() {
         Locker locker = new Locker(false);
         Ticket ticket = locker.savePackage(new Pack());
-        locker.takePackage(ticket);
+        locker.takePackage(new Ticket(ticket.getSerialNo()));
 
         Exception exception = assertThrows(
                 RuntimeException.class,
-                () -> locker.takePackage(ticket));
+                () -> locker.takePackage(new Ticket(ticket.getSerialNo())));
 
         assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
     }
@@ -83,7 +83,7 @@ public class LockerTest {
 
         assertTicketNotEmpty(firstTicket);
         assertTicketNotEmpty(secondTicket);
-        assertNotEquals(firstTicket.serialNo, secondTicket.serialNo);
+        assertNotEquals(firstTicket, secondTicket);
     }
 
     @Test
@@ -94,8 +94,8 @@ public class LockerTest {
         Pack secondPreSavePack = new Pack();
         Ticket secondTicket = locker.savePackage(secondPreSavePack);
 
-        Pack firstPack = locker.takePackage(firstTicket);
-        Pack secondPack = locker.takePackage(secondTicket);
+        Pack firstPack = locker.takePackage(new Ticket(firstTicket.getSerialNo()));
+        Pack secondPack = locker.takePackage(new Ticket(secondTicket.getSerialNo()));
 
         assertEquals(firstPreSavePack, firstPack);
         assertEquals(secondPreSavePack, secondPack);
