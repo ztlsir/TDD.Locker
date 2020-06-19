@@ -33,12 +33,9 @@ public class Locker {
 
         Ticket ticket = createTicket();
         this.packs.put(ticket, pack);
+        this.capacity--;
 
         return ticket;
-    }
-
-    private boolean isFull() {
-        return this.capacity <= 0;
     }
 
     public Pack takePackage(Ticket ticket) {
@@ -50,12 +47,16 @@ public class Locker {
         return pack;
     }
 
-    private Ticket createTicket() {
-        return new Ticket(UUID.randomUUID().toString());
+    public boolean isFull() {
+        return this.capacity <= 0;
     }
 
     public boolean isNotFull() {
         return !this.isFull();
+    }
+
+    private Ticket createTicket() {
+        return new Ticket(UUID.randomUUID().toString());
     }
 
     public boolean isSaved(Ticket ticket) {
