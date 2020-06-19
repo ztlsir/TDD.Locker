@@ -12,7 +12,7 @@ public class PrimaryLockerRobot {
         this.lockers = lockers;
     }
 
-    public String savePackage(Pack pack) {
+    public Ticket savePackage(Pack pack) {
         for (Locker locker : lockers) {
             if (locker.isNotFull()) {
                 return locker.savePackage(pack);
@@ -22,7 +22,7 @@ public class PrimaryLockerRobot {
         throw new RuntimeException(savePackageFailedErrorMessage);
     }
 
-    public Pack takePackage(String ticket) {
+    public Pack takePackage(Ticket ticket) {
         for (Locker locker : lockers) {
             if (locker.isSaved(ticket)) {
                 return locker.takePackage(ticket);

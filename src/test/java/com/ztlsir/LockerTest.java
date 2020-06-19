@@ -2,6 +2,7 @@ package com.ztlsir;
 
 import org.junit.jupiter.api.Test;
 
+import static com.ztlsir.fixture.LockerFixture.assertTicketNotEmpty;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
@@ -22,10 +23,9 @@ public class LockerTest {
     public void should_return_ticket_when_save_package_given_locker_is_not_full() {
         Locker locker = new Locker(false);
 
-        String ticket = locker.savePackage(new Pack());
+        Ticket ticket = locker.savePackage(new Pack());
 
-        assertNotNull(ticket);
-        assertNotEquals("", ticket);
+        assertTicketNotEmpty(ticket);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class LockerTest {
     public void should_take_package_by_ticket_when_take_package_given_useful_ticket() {
         Locker locker = new Locker(false);
         Pack preSavePack = new Pack();
-        String ticket = locker.savePackage(preSavePack);
+        Ticket ticket = locker.savePackage(preSavePack);
 
         Pack pack = locker.takePackage(ticket);
 
@@ -56,7 +56,7 @@ public class LockerTest {
 
         Exception exception = assertThrows(
                 RuntimeException.class,
-                () -> locker.takePackage("fake_ticket"));
+                () -> locker.takePackage(new Ticket("fake_ticket")));
 
         assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
     }
@@ -64,7 +64,7 @@ public class LockerTest {
     @Test
     public void should_throw_take_failed_exception_when_take_package_given_has_taken_ticket() {
         Locker locker = new Locker(false);
-        String ticket = locker.savePackage(new Pack());
+        Ticket ticket = locker.savePackage(new Pack());
         locker.takePackage(ticket);
 
         Exception exception = assertThrows(
@@ -78,23 +78,21 @@ public class LockerTest {
     public void should_return_two_ticket_when_save_two_package_given_locker_is_not_full() {
         Locker locker = new Locker(false);
 
-        String firstTicket = locker.savePackage(new Pack());
-        String secondTicket = locker.savePackage(new Pack());
+        Ticket firstTicket = locker.savePackage(new Pack());
+        Ticket secondTicket = locker.savePackage(new Pack());
 
-        assertNotNull(firstTicket);
-        assertNotEquals("", firstTicket);
-        assertNotNull(secondTicket);
-        assertNotEquals("", secondTicket);
-        assertNotEquals(firstTicket, secondTicket);
+        assertTicketNotEmpty(firstTicket);
+        assertTicketNotEmpty(secondTicket);
+        assertNotEquals(firstTicket.serialNo, secondTicket.serialNo);
     }
 
     @Test
     public void should_take_two_package_by_two_ticket_when_take_package_given_two_ticket_is_valid() {
         Locker locker = new Locker(false);
         Pack firstPreSavePack = new Pack();
-        String firstTicket = locker.savePackage(firstPreSavePack);
+        Ticket firstTicket = locker.savePackage(firstPreSavePack);
         Pack secondPreSavePack = new Pack();
-        String secondTicket = locker.savePackage(secondPreSavePack);
+        Ticket secondTicket = locker.savePackage(secondPreSavePack);
 
         Pack firstPack = locker.takePackage(firstTicket);
         Pack secondPack = locker.takePackage(secondTicket);

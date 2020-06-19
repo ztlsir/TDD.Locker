@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
+import static com.ztlsir.fixture.LockerFixture.assertTicketNotEmpty;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
@@ -25,10 +26,9 @@ public class PrimaryLockerRobotTest {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(firstLocker, new Locker(false)));
         Pack preSavePack = new Pack();
 
-        String ticket = primaryLockerRobot.savePackage(preSavePack);
+        Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
-        assertNotNull(ticket);
-        assertNotEquals("", ticket);
+        assertTicketNotEmpty(ticket);
         Pack pack = firstLocker.takePackage(ticket);
         assertEquals(preSavePack, pack);
     }
@@ -39,10 +39,9 @@ public class PrimaryLockerRobotTest {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), secondLocker));
         Pack preSavePack = new Pack();
 
-        String ticket = primaryLockerRobot.savePackage(preSavePack);
+        Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
-        assertNotNull(ticket);
-        assertNotEquals("", ticket);
+        assertTicketNotEmpty(ticket);
         Pack pack = secondLocker.takePackage(ticket);
         assertEquals(preSavePack, pack);
     }
@@ -53,10 +52,9 @@ public class PrimaryLockerRobotTest {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(firstLocker, new Locker(true)));
         Pack preSavePack = new Pack();
 
-        String ticket = primaryLockerRobot.savePackage(preSavePack);
+        Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
-        assertNotNull(ticket);
-        assertNotEquals("", ticket);
+        assertTicketNotEmpty(ticket);
         Pack pack = firstLocker.takePackage(ticket);
         assertEquals(preSavePack, pack);
     }
@@ -77,7 +75,7 @@ public class PrimaryLockerRobotTest {
     public void should_take_package_by_ticket_when_take_package_given_useful_ticket_and_package_save_in_1st_locker() {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(false), new Locker(false)));
         Pack preSavePack = new Pack();
-        String ticket = primaryLockerRobot.savePackage(preSavePack);
+        Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
         Pack pack = primaryLockerRobot.takePackage(ticket);
 
@@ -88,7 +86,7 @@ public class PrimaryLockerRobotTest {
     public void should_take_package_by_ticket_when_take_package_given_useful_ticket_and_package_save_in_2nd_locker() {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), new Locker(false)));
         Pack preSavePack = new Pack();
-        String ticket = primaryLockerRobot.savePackage(preSavePack);
+        Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
         Pack pack = primaryLockerRobot.takePackage(ticket);
 
@@ -102,7 +100,7 @@ public class PrimaryLockerRobotTest {
 
         Exception exception = assertThrows(
                 RuntimeException.class,
-                () -> primaryLockerRobot.takePackage("fake_ticket"));
+                () -> primaryLockerRobot.takePackage(new Ticket("fake_ticket")));
 
         assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
     }
@@ -112,7 +110,7 @@ public class PrimaryLockerRobotTest {
     {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(false), new Locker(false)));
         Pack preSavePack = new Pack();
-        String ticket = primaryLockerRobot.savePackage(preSavePack);
+        Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
         primaryLockerRobot.takePackage(ticket);
 
         Exception exception = assertThrows(
@@ -127,7 +125,7 @@ public class PrimaryLockerRobotTest {
     {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), new Locker(false)));
         Pack preSavePack = new Pack();
-        String ticket = primaryLockerRobot.savePackage(preSavePack);
+        Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
         primaryLockerRobot.takePackage(ticket);
 
         Exception exception = assertThrows(
