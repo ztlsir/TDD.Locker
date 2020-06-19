@@ -5,11 +5,9 @@ import com.ztlsir.exception.IlLegalTicketException;
 import java.util.Comparator;
 import java.util.List;
 
-public class SmartLockerRobot {
-    private final List<Locker> lockers;
-
+public class SmartLockerRobot extends BaseLockerRobot {
     public SmartLockerRobot(List<Locker> lockers) {
-        this.lockers = lockers;
+        super(lockers);
     }
 
     public Ticket savePackage(Pack pack) {
@@ -21,15 +19,5 @@ public class SmartLockerRobot {
                 .findFirst()
                 .get()
                 .savePackage(pack);
-    }
-
-    public Pack takePackage(Ticket ticket) {
-        for (Locker locker : this.lockers) {
-            if (locker.isSaved(ticket)) {
-                return locker.takePackage(ticket);
-            }
-        }
-
-        throw new IlLegalTicketException();
     }
 }
