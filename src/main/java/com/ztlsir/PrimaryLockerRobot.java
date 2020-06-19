@@ -9,6 +9,7 @@ public class PrimaryLockerRobot extends BaseLockerRobot {
         super(lockers);
     }
 
+    @Override
     public Ticket savePackage(Pack pack) {
         for (Locker locker : this.lockers) {
             if (locker.isNotFull()) {

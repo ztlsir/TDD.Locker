@@ -10,6 +10,7 @@ public class SmartLockerRobot extends BaseLockerRobot {
         super(lockers);
     }
 
+    @Override
     public Ticket savePackage(Pack pack) {
         return lockers.stream()
                 .sorted(Comparator
