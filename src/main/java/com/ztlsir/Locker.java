@@ -1,6 +1,7 @@
 package com.ztlsir;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Locker {
     private static final String savePackageFailedErrorMessage = "存包失败";
@@ -35,7 +36,7 @@ public class Locker {
     }
 
     private String createTicket() {
-        return "1";
+        return UUID.randomUUID().toString();
     }
 
     public boolean isNotFull() {
