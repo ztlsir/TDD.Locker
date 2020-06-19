@@ -61,15 +61,14 @@ public class LockerTest {
     }
 
     @Test
-    public void should_throw_take_failed_exception_when_take_package_given_has_taken_ticket() {
+    public void should_throw_ilLegal_ticket_exception_when_take_package_given_has_taken_ticket() {
         Locker locker = new Locker(false);
         Ticket ticket = locker.savePackage(new Pack());
         locker.takePackage(new Ticket(ticket.getSerialNo()));
 
         Exception exception = assertThrows(
-                RuntimeException.class,
+                IlLegalTicketException.class,
                 () -> locker.takePackage(new Ticket(ticket.getSerialNo())));
-
         assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
     }
 
