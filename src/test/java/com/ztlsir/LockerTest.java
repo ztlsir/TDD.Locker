@@ -10,6 +10,8 @@ Given 储物柜已满 When 存包 Then 提示存包失败
 Given 一张有效票据 When 取包 Then 成功取到票据对应的包
 Given 一张伪造票据 When 取包 Then 取包失败，提示非法票据
 Given 一张已取过包的票据 When 取包 Then 取包失败，提示非法票据
+todo Given 储物柜没满 When 连续存两个不同的包 Then 获得两张有效票据
+todo Given 两张有效票据 When 取包 Then 成功取到每张票据对应的包
 */
 public class LockerTest {
 
