@@ -1,9 +1,10 @@
 package com.ztlsir;
 
+import com.ztlsir.exception.LockerFullException;
+
 import java.util.List;
 
 public class PrimaryLockerRobot {
-    private static final String savePackageFailedErrorMessage = "存包失败";
     private static final String ilLegalTicketErrorMessage = "非法票据";
 
     private final List<Locker> lockers;
@@ -19,7 +20,7 @@ public class PrimaryLockerRobot {
             }
         }
 
-        throw new RuntimeException(savePackageFailedErrorMessage);
+        throw new LockerFullException();
     }
 
     public Pack takePackage(Ticket ticket) {

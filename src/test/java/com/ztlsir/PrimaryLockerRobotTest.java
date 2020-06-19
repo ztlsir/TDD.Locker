@@ -1,5 +1,6 @@
 package com.ztlsir;
 
+import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Given 一张已取过包的票据 When 取包 Then 取包失败，提示非法票据
  * */
 public class PrimaryLockerRobotTest {
-    private static final String savePackageFailedErrorMessage = "存包失败";
+    private static final String lockerFullErrorMessage = "储物柜已满";
     private static final String ilLegalTicketErrorMessage = "非法票据";
 
     @Test
@@ -60,15 +61,14 @@ public class PrimaryLockerRobotTest {
     }
 
     @Test
-    public void should_throw_save_failed_exception_when_save_package_given_robot_manage_two_lockers_and_both_is_full() {
+    public void should_throw_locker_full_exception_when_save_package_given_robot_manage_two_lockers_and_both_is_full() {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), new Locker(true)));
         Pack preSavePack = new Pack();
 
-        Exception exception = assertThrows(
-                RuntimeException.class,
+        LockerFullException exception = assertThrows(
+                LockerFullException.class,
                 () -> primaryLockerRobot.savePackage(preSavePack));
-
-        assertEquals(savePackageFailedErrorMessage, exception.getMessage());
+        assertEquals(lockerFullErrorMessage, exception.getMessage());
     }
 
     @Test
