@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Locker {
-    private static final String savePackageFailedErrorMessage = "存包失败";
-    private static final String ilLegalTicketErrorMessage = "非法票据";
-
     private boolean isFull;
     private HashMap<Ticket, Pack> tickets;
 
@@ -31,7 +28,7 @@ public class Locker {
     public Pack takePackage(Ticket ticket) {
         Pack pack = this.tickets.remove(ticket);
         if (pack == null) {
-            throw new RuntimeException(ilLegalTicketErrorMessage);
+            throw new IlLegalTicketException();
         }
 
         return pack;
