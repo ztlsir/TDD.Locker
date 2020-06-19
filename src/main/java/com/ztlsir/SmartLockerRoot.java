@@ -13,12 +13,14 @@ public class SmartLockerRoot {
     }
 
     public Ticket savePackage(Pack pack) {
-        Locker maxLocker = lockers.stream()
-                .sorted(Comparator.comparing(Locker::getCapacityPackCount).reversed().thenComparing(Locker::getOrder))
+        return lockers.stream()
+                .sorted(Comparator
+                        .comparing(Locker::getCapacityPackCount)
+                        .reversed()
+                        .thenComparing(Locker::getOrder))
                 .findFirst()
-                .get();
-
-        return maxLocker.savePackage(pack);
+                .get()
+                .savePackage(pack);
     }
 
     public Pack takePackage(Ticket ticket) {
