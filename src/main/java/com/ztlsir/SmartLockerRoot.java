@@ -17,10 +17,7 @@ public class SmartLockerRoot {
                 .sorted(Comparator.comparing(Locker::getCapacityPackCount).reversed().thenComparing(Locker::getOrder))
                 .findFirst()
                 .get();
-        if (maxLocker.isNotFull()) {
-            return maxLocker.savePackage(pack);
-        }
 
-        return null;
+        return maxLocker.savePackage(pack);
     }
 }

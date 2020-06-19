@@ -7,25 +7,27 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Locker {
-    private boolean isFull;
     private HashMap<Ticket, Pack> packs;
     private int capacity;
     private int order;
 
-    public Locker(boolean isFull) {
-        this.isFull = isFull;
-        this.packs = new HashMap<Ticket, Pack>();
+    public Locker() {
+        this(0);
+    }
+
+    public Locker(int capacity) {
+        this(capacity, 0);
     }
 
     public Locker(int capacity, int order) {
         this.capacity = capacity;
-        this.order=order;
+        this.order = order;
 
         this.packs = new HashMap<Ticket, Pack>();
     }
 
     public Ticket savePackage(Pack pack) {
-        if (this.isFull) {
+        if (this.isFull()) {
             throw new LockerFullException();
         }
 
@@ -33,6 +35,10 @@ public class Locker {
         this.packs.put(ticket, pack);
 
         return ticket;
+    }
+
+    private boolean isFull() {
+        return this.capacity <= 0;
     }
 
     public Pack takePackage(Ticket ticket) {
@@ -49,7 +55,7 @@ public class Locker {
     }
 
     public boolean isNotFull() {
-        return !this.isFull;
+        return !this.isFull();
     }
 
     public boolean isSaved(Ticket ticket) {

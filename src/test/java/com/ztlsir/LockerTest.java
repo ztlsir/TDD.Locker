@@ -4,7 +4,7 @@ import com.ztlsir.exception.IlLegalTicketException;
 import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.Test;
 
-import static com.ztlsir.fixture.LockerFixture.assertTicketNotEmpty;
+import static com.ztlsir.fixture.LockerFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
@@ -23,7 +23,7 @@ public class LockerTest {
 
     @Test
     public void should_return_ticket_when_save_package_given_locker_is_not_full() {
-        Locker locker = new Locker(false);
+        Locker locker = createAvailableLocker();
 
         Ticket ticket = locker.savePackage(new Pack());
 
@@ -32,7 +32,7 @@ public class LockerTest {
 
     @Test
     public void should_throw_locker_full_exception_when_save_package_given_locker_is_full() {
-        Locker locker = new Locker(true);
+        Locker locker = createFullLocker();
 
         LockerFullException exception = assertThrows(
                 LockerFullException.class,
@@ -42,7 +42,7 @@ public class LockerTest {
 
     @Test
     public void should_take_package_by_ticket_when_take_package_given_useful_ticket() {
-        Locker locker = new Locker(false);
+        Locker locker = createAvailableLocker();
         Pack preSavePack = new Pack();
         Ticket ticket = locker.savePackage(preSavePack);
 
@@ -53,7 +53,7 @@ public class LockerTest {
 
     @Test
     public void should_throw_ilLegal_ticket_exception_when_take_package_given_fake_ticket() {
-        Locker locker = new Locker(false);
+        Locker locker = createAvailableLocker();
 
         IlLegalTicketException exception = assertThrows(
                 IlLegalTicketException.class,
@@ -63,7 +63,7 @@ public class LockerTest {
 
     @Test
     public void should_throw_ilLegal_ticket_exception_when_take_package_given_has_taken_ticket() {
-        Locker locker = new Locker(false);
+        Locker locker = createAvailableLocker();
         Ticket ticket = locker.savePackage(new Pack());
         locker.takePackage(new Ticket(ticket.getSerialNo()));
 
@@ -75,7 +75,7 @@ public class LockerTest {
 
     @Test
     public void should_return_two_ticket_when_save_two_package_given_locker_is_not_full() {
-        Locker locker = new Locker(false);
+        Locker locker = createAvailableLocker();
 
         Ticket firstTicket = locker.savePackage(new Pack());
         Ticket secondTicket = locker.savePackage(new Pack());
@@ -87,7 +87,7 @@ public class LockerTest {
 
     @Test
     public void should_take_two_package_by_two_ticket_when_take_package_given_two_ticket_is_valid() {
-        Locker locker = new Locker(false);
+        Locker locker = createAvailableLocker();
         Pack firstPreSavePack = new Pack();
         Ticket firstTicket = locker.savePackage(firstPreSavePack);
         Pack secondPreSavePack = new Pack();

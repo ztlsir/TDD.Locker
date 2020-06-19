@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static com.ztlsir.fixture.LockerFixture.assertTicketNotEmpty;
+import static com.ztlsir.fixture.LockerFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
@@ -24,8 +24,8 @@ public class PrimaryLockerRobotTest {
 
     @Test
     public void should_save_in_1st_locker_and_return_ticket_when_save_package_given_robot_manage_two_lockers_and_both_is_not_full() {
-        Locker firstLocker = new Locker(false);
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(firstLocker, new Locker(false)));
+        Locker firstLocker = createAvailableLocker();
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(firstLocker, createAvailableLocker()));
         Pack preSavePack = new Pack();
 
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
@@ -37,8 +37,8 @@ public class PrimaryLockerRobotTest {
 
     @Test
     public void should_save_in_2st_locker_and_return_ticket_when_save_package_given_robot_manage_two_lockers_and_first_locker_is_full_and_second_locker_is_not_full() {
-        Locker secondLocker = new Locker(false);
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), secondLocker));
+        Locker secondLocker = createAvailableLocker();
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createFullLocker(), secondLocker));
         Pack preSavePack = new Pack();
 
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
@@ -50,8 +50,8 @@ public class PrimaryLockerRobotTest {
 
     @Test
     public void should_save_in_1st_locker_and_return_ticket_when_save_package_given_robot_manage_two_lockers_and_first_locker_is_not_full_and_second_locker_is_full() {
-        Locker firstLocker = new Locker(false);
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(firstLocker, new Locker(true)));
+        Locker firstLocker = createAvailableLocker();
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(firstLocker, createFullLocker()));
         Pack preSavePack = new Pack();
 
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
@@ -63,7 +63,7 @@ public class PrimaryLockerRobotTest {
 
     @Test
     public void should_throw_locker_full_exception_when_save_package_given_robot_manage_two_lockers_and_both_is_full() {
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), new Locker(true)));
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createFullLocker(), createFullLocker()));
         Pack preSavePack = new Pack();
 
         LockerFullException exception = assertThrows(
@@ -74,7 +74,7 @@ public class PrimaryLockerRobotTest {
 
     @Test
     public void should_take_package_by_ticket_when_take_package_given_useful_ticket_and_package_save_in_1st_locker() {
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(false), new Locker(false)));
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createAvailableLocker(), createAvailableLocker()));
         Pack preSavePack = new Pack();
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
@@ -85,7 +85,7 @@ public class PrimaryLockerRobotTest {
 
     @Test
     public void should_take_package_by_ticket_when_take_package_given_useful_ticket_and_package_save_in_2nd_locker() {
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), new Locker(false)));
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createFullLocker(), createAvailableLocker()));
         Pack preSavePack = new Pack();
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
@@ -95,9 +95,8 @@ public class PrimaryLockerRobotTest {
     }
 
     @Test
-    public void should_throw_ilLegal_ticket_exception_when_take_package_given_fake_ticket()
-    {
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), new Locker(false)));
+    public void should_throw_ilLegal_ticket_exception_when_take_package_given_fake_ticket() {
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createFullLocker(), createAvailableLocker()));
 
         IlLegalTicketException exception = assertThrows(
                 IlLegalTicketException.class,
@@ -107,9 +106,8 @@ public class PrimaryLockerRobotTest {
     }
 
     @Test
-    public void should_throw_ilLegal_ticket_exception_when_take_package_given_has_taken_ticket_from_1st_locker()
-    {
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(false), new Locker(false)));
+    public void should_throw_ilLegal_ticket_exception_when_take_package_given_has_taken_ticket_from_1st_locker() {
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createAvailableLocker(), createAvailableLocker()));
         Pack preSavePack = new Pack();
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
         primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
@@ -121,9 +119,8 @@ public class PrimaryLockerRobotTest {
     }
 
     @Test
-    public void should_throw_take_failed_exception_when_take_package_given_has_taken_ticket_from_2nd_locker()
-    {
-        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), new Locker(false)));
+    public void should_throw_take_failed_exception_when_take_package_given_has_taken_ticket_from_2nd_locker() {
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createFullLocker(), createAvailableLocker()));
         Pack preSavePack = new Pack();
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
         primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
