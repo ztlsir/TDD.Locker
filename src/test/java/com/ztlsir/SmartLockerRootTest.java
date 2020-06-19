@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，通过SmartLockerRoot存包取得的一张有效票据 When 通过SmartLockerRoot取包 Then 取包成功
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，一张伪造票据 When 通过SmartLockerRoot取包 Then 取包失败，提示非法票据
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，通过PrimaryLockerRoot存包取得的一张有效票据 When 通过SmartLockerRoot取包 Then 取包成功
- * todo Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，通过SmartLockerRoot存包取得的一张有效票据 When 通过PrimaryLockerRoot取包 Then 取包成功
+ * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，通过SmartLockerRoot存包取得的一张有效票据 When 通过PrimaryLockerRoot取包 Then 取包成功
  */
 public class SmartLockerRootTest {
     @Test
@@ -131,6 +131,19 @@ public class SmartLockerRootTest {
 
         SmartLockerRoot smartLockerRoot = new SmartLockerRoot(lockers);
         Pack pack = smartLockerRoot.takePackage(new Ticket(ticket.getSerialNo()));
+
+        assertEquals(preSavePack, pack);
+    }
+
+    @Test
+    public void should_take_package_of_ticket_when_take_package_by_primary_locker_robot_given_smart_and_primary_locker_robot_manage_two_lockers_and_get_ticket_by_smart_locker_robot_save_package() {
+        List<Locker> lockers = Arrays.asList(new Locker(5, 2), new Locker(5, 1));
+        SmartLockerRoot smartLockerRoot = new SmartLockerRoot(lockers);
+        Pack preSavePack = new Pack();
+        Ticket ticket = smartLockerRoot.savePackage(preSavePack);
+
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(lockers);
+        Pack pack = primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
 
         assertEquals(preSavePack, pack);
     }
