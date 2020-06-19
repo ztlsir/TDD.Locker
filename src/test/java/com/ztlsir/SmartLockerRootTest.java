@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，通过PrimaryLockerRoot存包取得的一张有效票据 When 通过SmartLockerRoot取包 Then 取包成功
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，通过SmartLockerRoot存包取得的一张有效票据 When 通过PrimaryLockerRoot取包 Then 取包成功
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜空余量为1，第2个储物柜空余量为0 When 存包 Then 获得一张有效票据，包存到第1个储物柜，第1个储物柜存满
- * todo Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜空余量为0，第2个储物柜空余量为0，通过SmartLockerRoot存包到第1个储物柜取得的一张有效票据 When 通过SmartLockerRoot取包 Then 取包成功，第1个储物柜有余量
+ * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜空余量为1，第2个储物柜空余量为0 When 先存包,再通过SmartLockerRoot取包 Then 第1个储物柜有余量，第2个储物柜存满
  */
 public class SmartLockerRootTest {
     @Test
@@ -150,7 +150,7 @@ public class SmartLockerRootTest {
     }
 
     @Test
-    public void should_save_in_1st_locker_and_return_ticket_when_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_1_and_2nd_with_0() {
+    public void should_save_in_1st_locker_and_return_ticket_and_1st_locker_is_full_when_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_1_and_2nd_with_0() {
         Locker firstLocker = new Locker(1, 1);
         SmartLockerRoot smartLockerRoot = new SmartLockerRoot(Arrays.asList(new Locker(0, 2), firstLocker));
         Pack preSavePack = new Pack();
@@ -158,8 +158,20 @@ public class SmartLockerRootTest {
         Ticket ticket = smartLockerRoot.savePackage(preSavePack);
 
         assertTicketNotEmpty(ticket);
-        Pack pack = firstLocker.takePackage(ticket);
-        assertEquals(preSavePack, pack);
+        assertTrue(firstLocker.isSaved(new Ticket(ticket.getSerialNo())));
         assertTrue(firstLocker.isFull());
+    }
+
+    @Test
+    public void should_1st_locker_is_not_full_and_2nd_locker_is_full_when_save_package_then_take_package_by_smart_locker_robot_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_1_and_2nd_with_0() {
+        Locker firstLocker = new Locker(1, 1);
+        Locker secondLocker = new Locker(0, 2);
+        SmartLockerRoot smartLockerRoot = new SmartLockerRoot(Arrays.asList(firstLocker, secondLocker));
+
+        Ticket ticket = smartLockerRoot.savePackage(new Pack());
+        smartLockerRoot.takePackage(new Ticket(ticket.getSerialNo()));
+
+        assertTrue(firstLocker.isNotFull());
+        assertTrue(secondLocker.isFull());
     }
 }

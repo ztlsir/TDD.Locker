@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class Locker {
     private HashMap<Ticket, Pack> packs;
-    private int capacity;
+    private int initCapacity;
     private int order;
 
     public Locker() {
@@ -20,7 +20,7 @@ public class Locker {
     }
 
     public Locker(int capacity, int order) {
-        this.capacity = capacity;
+        this.initCapacity = capacity;
         this.order = order;
 
         this.packs = new HashMap<Ticket, Pack>();
@@ -33,7 +33,6 @@ public class Locker {
 
         Ticket ticket = createTicket();
         this.packs.put(ticket, pack);
-        this.capacity--;
 
         return ticket;
     }
@@ -48,7 +47,11 @@ public class Locker {
     }
 
     public boolean isFull() {
-        return this.capacity <= 0;
+        return this.getRemainingCapacity() <= 0;
+    }
+
+    private int getRemainingCapacity() {
+        return this.initCapacity - this.packs.size();
     }
 
     public boolean isNotFull() {
@@ -64,7 +67,7 @@ public class Locker {
     }
 
     public int getCapacityPackCount() {
-        return this.capacity;
+        return this.initCapacity;
     }
 
     public int getOrder() {
