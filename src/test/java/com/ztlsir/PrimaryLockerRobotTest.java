@@ -1,5 +1,6 @@
 package com.ztlsir;
 
+import com.ztlsir.exception.IlLegalTicketException;
 import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.Test;
 
@@ -94,29 +95,28 @@ public class PrimaryLockerRobotTest {
     }
 
     @Test
-    public void should_throw_take_failed_exception_when_take_package_given_fake_ticket()
+    public void should_throw_ilLegal_ticket_exception_when_take_package_given_fake_ticket()
     {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(true), new Locker(false)));
 
-        Exception exception = assertThrows(
-                RuntimeException.class,
+        IlLegalTicketException exception = assertThrows(
+                IlLegalTicketException.class,
                 () -> primaryLockerRobot.takePackage(new Ticket("fake_ticket")));
 
         assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
     }
 
     @Test
-    public void should_throw_take_failed_exception_when_take_package_given_has_taken_ticket_from_1st_locker()
+    public void should_throw_ilLegal_ticket_exception_when_take_package_given_has_taken_ticket_from_1st_locker()
     {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(new Locker(false), new Locker(false)));
         Pack preSavePack = new Pack();
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
         primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
 
-        Exception exception = assertThrows(
-                RuntimeException.class,
+        IlLegalTicketException exception = assertThrows(
+                IlLegalTicketException.class,
                 () -> primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo())));
-
         assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
     }
 
