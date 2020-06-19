@@ -20,4 +20,14 @@ public class SmartLockerRoot {
 
         return maxLocker.savePackage(pack);
     }
+
+    public Pack takePackage(Ticket ticket) {
+        for (Locker locker : this.lockers) {
+            if (locker.isSaved(ticket)) {
+                return locker.takePackage(ticket);
+            }
+        }
+
+        return null;
+    }
 }
