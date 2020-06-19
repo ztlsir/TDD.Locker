@@ -1,5 +1,8 @@
 package com.ztlsir;
 
+import com.ztlsir.exception.IlLegalTicketException;
+
+import java.util.Comparator;
 import java.util.List;
 
 public class SmartLockerRoot {
@@ -10,6 +13,14 @@ public class SmartLockerRoot {
     }
 
     public Ticket savePackage(Pack pack) {
-        return this.lockers.get(0).savePackage(pack);
+        Locker maxLocker = lockers.stream()
+                .sorted(Comparator.comparing(Locker::getCapacityPackCount).reversed().thenComparing(Locker::getOrder))
+                .findFirst()
+                .get();
+        if (maxLocker.isNotFull()) {
+            return maxLocker.savePackage(pack);
+        }
+
+        return null;
     }
 }

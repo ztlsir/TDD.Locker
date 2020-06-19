@@ -9,13 +9,18 @@ import java.util.UUID;
 public class Locker {
     private boolean isFull;
     private HashMap<Ticket, Pack> packs;
+    private int capacity;
+    private int order;
 
     public Locker(boolean isFull) {
         this.isFull = isFull;
         this.packs = new HashMap<Ticket, Pack>();
     }
 
-    public Locker(int capacity) {
+    public Locker(int capacity, int order) {
+        this.capacity = capacity;
+        this.order=order;
+
         this.packs = new HashMap<Ticket, Pack>();
     }
 
@@ -49,5 +54,13 @@ public class Locker {
 
     public boolean isSaved(Ticket ticket) {
         return this.packs.containsKey(ticket);
+    }
+
+    public int getCapacityPackCount() {
+        return this.capacity;
+    }
+
+    public int getOrder() {
+        return this.order;
     }
 }
