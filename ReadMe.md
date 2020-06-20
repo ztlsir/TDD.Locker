@@ -50,4 +50,4 @@ Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，通过Smart
 
 Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜容量为1，第2个储物柜容量为0 When 存包 Then 获得一张有效票据，包存到第1个储物柜，第1个储物柜存满
 
-Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜容量为0，第2个储物柜容量为0，通过SmartLockerRoot存包到第1个储物柜取得的一张有效票据 When 通过SmartLockerRoot取包 Then 取包成功，第1个储物柜有余量
+Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜容量为1，第2个储物柜容量为0，通过SmartLockerRoot存包到第1个储物柜取得的一张有效票据 When 通过SmartLockerRoot取包 Then 取包成功，第1个储物柜有余量
