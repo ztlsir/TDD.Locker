@@ -50,7 +50,7 @@ public class Locker {
         return this.getRemainingCapacity() <= 0;
     }
 
-    private int getRemainingCapacity() {
+    public int getRemainingCapacity() {
         return this.initCapacity - this.packs.size();
     }
 
@@ -64,10 +64,6 @@ public class Locker {
 
     public boolean isSaved(Ticket ticket) {
         return this.packs.containsKey(ticket);
-    }
-
-    public int getCapacityPackCount() {
-        return this.initCapacity;
     }
 
     public int getOrder() {

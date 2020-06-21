@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，通过SmartLockerRoot存包取得的一张有效票据 When 通过PrimaryLockerRoot取包 Then 取包成功
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜容量为1，第2个储物柜容量为0 When 存包 Then 获得一张有效票据，包存到第1个储物柜，第1个储物柜存满
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜容量为1，第2个储物柜容量为0 When 先存包,再通过SmartLockerRoot取包 Then 第1个储物柜有余量，第2个储物柜存满
+ * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜容量为2,余量为1，第2个储物柜容量为2 When 存包 Then 获得一张有效票据，包存到第2个储物柜
  */
 public class SmartLockerRobotTest {
     @Test
@@ -173,5 +174,19 @@ public class SmartLockerRobotTest {
 
         assertTrue(firstLocker.isNotFull());
         assertTrue(secondLocker.isFull());
+    }
+
+    @Test
+    public void should_save_in_2st_locker_and_return_ticket_when_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_2_and_2nd_with_2_and_1st_locker_remaining_1() {
+        Locker secondLocker = new Locker(2, 2);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(2, 1), secondLocker));
+        smartLockerRobot.savePackage(new Pack());
+        Pack preSavePack = new Pack();
+
+        Ticket ticket = smartLockerRobot.savePackage(preSavePack);
+
+        assertTicketNotEmpty(ticket);
+        Pack pack = secondLocker.takePackage(ticket);
+        assertEquals(preSavePack, pack);
     }
 }
