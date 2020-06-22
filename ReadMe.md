@@ -75,3 +75,44 @@ Then 获得一张有效票据，包存到第1个储物柜，第1个储物柜存�
 Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜容量为1，第2个储物柜容量为0
 When 先存包,再通过SmartLockerRoot取包
 Then 第1个储物柜有余量，第2个储物柜存满
+
+## Locker Robot Manager Tasking
+Given LockerRobotManager管理着2个有容量的机器人、和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot
+When 存包
+Then 获得一张有效票据，包存到第一个机器人PrimaryLockerRobot管理的locker
+
+Given LockerRobotManager管理着2个有容量的机器人、和2个有容量的locker，第1个机器人为SmartLockerRobot，第2个机器人为PrimaryLockerRobot
+When 存包
+Then 获得一张有效票据，包存到第一个机器人SmartLockerRobot管理的locker
+
+Given LockerRobotManager管理着2个没有容量的机器人和2个有容量的locker
+When 存包
+Then 获得一张有效票据，包存到第1个locker
+
+Given LockerRobotManager管理着2个没有容量的机器人和2个locker，第1个locker没有容量，第2个locker有容量
+When 存包
+Then 获得一张有效票据，包存到第2个locker
+
+Given LockerRobotManager管理着2个没有容量的机器人和2个没有容量的locker
+When 存包
+Then 存包失败，提示储物柜已满
+
+Given LockerRobotManager管理着2个有容量的机器人和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot，一张包存在第1个机器人的有效票
+When 取包
+Then 取包成功
+
+Given LockerRobotManager管理着2个有容量的机器人和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot，一张包存在第2个机器人的有效票
+When 取包
+Then 取包成功
+
+Given LockerRobotManager管理着2个有容量的机器人和2个有容量的locker，一张包存在第1个locker
+When 取包
+Then 取包成功
+
+Given LockerRobotManager管理着2个有容量的机器人和2个有容量的locker，一张包存在第2个locker
+When 取包
+Then 取包成功
+
+Given LockerRobotManager管理着2个有容量的机器人和2个有容量的locker，一张伪造票据
+When 取包
+Then 取包失败，提示非法票据
