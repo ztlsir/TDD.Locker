@@ -79,15 +79,15 @@ Then 第1个储物柜有余量，第2个储物柜存满
 ## Locker Robot Manager Tasking
 Given LockerRobotManager管理着2个有容量的机器人、和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot
 When 存包
-Then 获得一张有效票据，包存到第1个机器人PrimaryLockerRobot管理的locker
+Then 获得一张有效票据，包存到PrimaryLockerRobot管理的locker
 
 Given LockerRobotManager管理着2个有容量的机器人、和2个有容量的locker，第1个机器人为SmartLockerRobot，第2个机器人为PrimaryLockerRobot
 When 存包
-Then 获得一张有效票据，包存到第1个机器人SmartLockerRobot管理的locker
+Then 获得一张有效票据，包存到SmartLockerRobot管理的locker
 
 Given LockerRobotManager管理着2个机器人、和2个有容量的locker，第1个机器人SmartLockerRobot没有容量，第2个机器人PrimaryLockerRobot有容量
 When 存包
-Then 获得一张有效票据，包存到第2个机器人PrimaryLockerRobot管理的locker
+Then 获得一张有效票据，包存到PrimaryLockerRobot管理的locker
 
 Given LockerRobotManager管理着2个没有容量的机器人和2个有容量的locker
 When 存包
@@ -99,11 +99,11 @@ Then 获得一张有效票据，包存到第2个locker
 
 Given LockerRobotManager管理着2个有容量的机器人，第1个机器人为SmartLockerRobot，第2个机器人为PrimaryLockerRobot
 When 存包
-Then 获得一张有效票据，包存到第1个机器人PrimaryLockerRobot管理的locker
+Then 获得一张有效票据，包存到PrimaryLockerRobot管理的locker
 
 Given LockerRobotManager管理着2个机器人，第1个机器人SmartLockerRobot没有容量，第2个机器人PrimaryLockerRobot有容量
 When 存包
-Then 获得一张有效票据，包存到第2个机器人PrimaryLockerRobot管理的locker
+Then 获得一张有效票据，包存到PrimaryLockerRobot管理的locker
 
 Given LockerRobotManager管理着2个有容量的locker
 When 存包
