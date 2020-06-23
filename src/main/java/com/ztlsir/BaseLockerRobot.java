@@ -1,8 +1,7 @@
 package com.ztlsir;
 
-import com.ztlsir.exception.IlLegalTicketException;
+import com.ztlsir.exception.IllegalTicketException;
 
-import java.util.Comparator;
 import java.util.List;
 
 public abstract class BaseLockerRobot {
@@ -21,6 +20,6 @@ public abstract class BaseLockerRobot {
             }
         }
 
-        throw new IlLegalTicketException();
+        throw new IllegalTicketException();
     }
 }

@@ -1,6 +1,6 @@
 package com.ztlsir;
 
-import com.ztlsir.exception.IlLegalTicketException;
+import com.ztlsir.exception.IllegalTicketException;
 import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.Test;
 
@@ -96,8 +96,8 @@ public class PrimaryLockerRobotTest {
     public void should_throw_ilLegal_ticket_exception_when_take_package_given_fake_ticket() {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createFullLocker(), createAvailableLocker()));
 
-        IlLegalTicketException exception = assertThrows(
-                IlLegalTicketException.class,
+        IllegalTicketException exception = assertThrows(
+                IllegalTicketException.class,
                 () -> primaryLockerRobot.takePackage(new Ticket("fake_ticket")));
 
         assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
@@ -110,8 +110,8 @@ public class PrimaryLockerRobotTest {
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
         primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
 
-        IlLegalTicketException exception = assertThrows(
-                IlLegalTicketException.class,
+        IllegalTicketException exception = assertThrows(
+                IllegalTicketException.class,
                 () -> primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo())));
         assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
     }

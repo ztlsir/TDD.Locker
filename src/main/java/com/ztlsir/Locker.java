@@ -1,6 +1,6 @@
 package com.ztlsir;
 
-import com.ztlsir.exception.IlLegalTicketException;
+import com.ztlsir.exception.IllegalTicketException;
 import com.ztlsir.exception.LockerFullException;
 
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class Locker {
     public Pack takePackage(Ticket ticket) {
         Pack pack = this.packs.remove(ticket);
         if (pack == null) {
-            throw new IlLegalTicketException();
+            throw new IllegalTicketException();
         }
 
         return pack;
