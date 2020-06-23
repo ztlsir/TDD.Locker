@@ -11,8 +11,7 @@ public class SmartLockerRobot extends BaseLockerRobot {
     @Override
     public Ticket savePackage(Pack pack) {
         return lockers.stream()
-                .max(Comparator
-                        .comparing(Locker::getRemainingCapacity))
+                .max(Comparator.comparing(Locker::getRemainingCapacity))
                 .get()
                 .savePackage(pack);
     }
