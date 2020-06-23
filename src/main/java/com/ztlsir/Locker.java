@@ -9,15 +9,9 @@ import java.util.UUID;
 public class Locker {
     private HashMap<Ticket, Pack> packs;
     private int initCapacity;
-    private int order;
 
     public Locker(int capacity) {
-        this(capacity, 0);
-    }
-
-    public Locker(int capacity, int order) {
         this.initCapacity = capacity;
-        this.order = order;
 
         this.packs = new HashMap<Ticket, Pack>();
     }
@@ -44,10 +38,6 @@ public class Locker {
 
     public boolean isSaved(Ticket ticket) {
         return this.packs.containsKey(ticket);
-    }
-
-    public int getOrder() {
-        return this.order;
     }
 
     public int getRemainingCapacity() {

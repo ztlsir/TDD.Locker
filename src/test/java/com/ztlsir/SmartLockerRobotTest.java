@@ -28,8 +28,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SmartLockerRobotTest {
     @Test
     public void should_save_in_1st_locker_and_return_ticket_when_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_5_and_2nd_with_5() {
-        Locker firstLocker = new Locker(5, 1);
-        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(5, 2), firstLocker));
+        Locker firstLocker = new Locker(5);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(firstLocker, new Locker(5)));
         Pack preSavePack = new Pack();
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
@@ -41,8 +41,8 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_save_in_1st_locker_and_return_ticket_when_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_5_and_2nd_with_4() {
-        Locker firstLocker = new Locker(5, 1);
-        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(firstLocker, new Locker(4, 2)));
+        Locker firstLocker = new Locker(5);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(firstLocker, new Locker(4)));
         Pack preSavePack = new Pack();
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
@@ -54,8 +54,8 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_save_in_2st_locker_and_return_ticket_when_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_4_and_2nd_with_5() {
-        Locker secondLocker = new Locker(5, 2);
-        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(4, 1), secondLocker));
+        Locker secondLocker = new Locker(5);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(4), secondLocker));
         Pack preSavePack = new Pack();
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
@@ -67,8 +67,8 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_save_in_2st_locker_and_return_ticket_when_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_0_and_2nd_with_5() {
-        Locker secondLocker = new Locker(5, 2);
-        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(0, 1), secondLocker));
+        Locker secondLocker = new Locker(5);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(0), secondLocker));
         Pack preSavePack = new Pack();
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
@@ -80,8 +80,8 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_save_in_1st_locker_and_return_ticket_when_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_5_and_2nd_with_0() {
-        Locker firstLocker = new Locker(5, 1);
-        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(firstLocker, new Locker(0, 2)));
+        Locker firstLocker = new Locker(5);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(firstLocker, new Locker(0)));
         Pack preSavePack = new Pack();
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
@@ -93,7 +93,7 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_throw_locker_full_exception_when_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_0_and_2nd_with_0() {
-        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(0, 1), new Locker(0, 2)));
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(0), new Locker(0)));
         Pack preSavePack = new Pack();
 
         LockerFullException exception = assertThrows(
@@ -104,7 +104,7 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_take_package_of_ticket_when_take_package_by_smart_locker_robot_given_smart_and_primary_locker_robot_manage_two_lockers_and_get_ticket_by_smart_locker_robot_save_package() {
-        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(5, 2), new Locker(5, 1)));
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(5), new Locker(5)));
         Pack preSavePack = new Pack();
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
@@ -115,7 +115,7 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_throw_ilLegal_ticket_exception_when_take_package_by_smart_locker_robot_given_smart_and_primary_locker_robot_manage_two_lockers_and_a_fake_ticket() {
-        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(5, 2), new Locker(5, 1)));
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(5), new Locker(5)));
 
         IllegalTicketException exception = assertThrows(
                 IllegalTicketException.class,
@@ -126,7 +126,7 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_take_package_of_ticket_when_take_package_by_smart_locker_robot_given_smart_and_primary_locker_robot_manage_two_lockers_and_get_ticket_by_primary_locker_robot_save_package() {
-        List<Locker> lockers = Arrays.asList(new Locker(5, 2), new Locker(5, 1));
+        List<Locker> lockers = Arrays.asList(new Locker(5), new Locker(5));
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(lockers);
         Pack preSavePack = new Pack();
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
@@ -139,7 +139,7 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_take_package_of_ticket_when_take_package_by_primary_locker_robot_given_smart_and_primary_locker_robot_manage_two_lockers_and_get_ticket_by_smart_locker_robot_save_package() {
-        List<Locker> lockers = Arrays.asList(new Locker(5, 2), new Locker(5, 1));
+        List<Locker> lockers = Arrays.asList(new Locker(5), new Locker(5));
         SmartLockerRobot smartLockerRobot = new SmartLockerRobot(lockers);
         Pack preSavePack = new Pack();
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
@@ -152,8 +152,8 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_throw_locker_full_exception_when_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_1_remaining_0_and_2nd_with_0() {
-        Locker firstLocker = new Locker(1, 1);
-        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(0, 2), firstLocker));
+        Locker firstLocker = new Locker(1);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(0), firstLocker));
         smartLockerRobot.savePackage(new Pack());
 
         LockerFullException exception = assertThrows(
@@ -164,8 +164,8 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_save_in_1st_locker_and_return_ticket_when_take_package_then_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_1_and_2nd_with_0_and_one_ticket_that_package_save_in_1st_locker() {
-        Locker firstLocker = new Locker(1, 1);
-        Locker secondLocker = new Locker(0, 2);
+        Locker firstLocker = new Locker(1);
+        Locker secondLocker = new Locker(0);
         SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(firstLocker, secondLocker));
         Ticket givenTicket = smartLockerRobot.savePackage(new Pack());
 
@@ -180,8 +180,8 @@ public class SmartLockerRobotTest {
 
     @Test
     public void should_save_in_2st_locker_and_return_ticket_when_save_package_given_smart_and_primary_locker_robot_manage_two_lockers_and_1st_locker_with_2_and_2nd_with_2_and_1st_locker_remaining_1() {
-        Locker secondLocker = new Locker(2, 2);
-        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(2, 1), secondLocker));
+        Locker secondLocker = new Locker(2);
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(2), secondLocker));
         smartLockerRobot.savePackage(new Pack());
         Pack preSavePack = new Pack();
 
