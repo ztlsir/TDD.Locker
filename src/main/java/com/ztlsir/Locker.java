@@ -11,10 +11,6 @@ public class Locker {
     private int initCapacity;
     private int order;
 
-    public Locker() {
-        this(0);
-    }
-
     public Locker(int capacity) {
         this(capacity, 0);
     }
