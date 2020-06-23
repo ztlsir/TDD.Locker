@@ -42,27 +42,27 @@ public class Locker {
         return pack;
     }
 
-    public boolean isFull() {
-        return this.getRemainingCapacity() <= 0;
-    }
-
-    public int getRemainingCapacity() {
-        return this.initCapacity - this.packs.size();
-    }
-
-    public boolean isNotFull() {
-        return !this.isFull();
-    }
-
-    private Ticket createTicket() {
-        return new Ticket(UUID.randomUUID().toString());
-    }
-
     public boolean isSaved(Ticket ticket) {
         return this.packs.containsKey(ticket);
     }
 
     public int getOrder() {
         return this.order;
+    }
+
+    public int getRemainingCapacity() {
+        return this.initCapacity - this.packs.size();
+    }
+
+    protected boolean isNotFull() {
+        return !this.isFull();
+    }
+
+    private boolean isFull() {
+        return this.getRemainingCapacity() <= 0;
+    }
+
+    private Ticket createTicket() {
+        return new Ticket(UUID.randomUUID().toString());
     }
 }
