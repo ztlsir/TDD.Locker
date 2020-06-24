@@ -14,13 +14,11 @@ public abstract class BaseLockerRobot {
     public abstract Ticket savePackage(Pack pack);
 
     public Pack takePackage(Ticket ticket) {
-        for (Locker locker : this.lockers) {
-            if (locker.isSaved(ticket)) {
-                return locker.takePackage(ticket);
-            }
-        }
-
-        throw new IllegalTicketException();
+        return lockers.stream()
+                .filter(locker -> locker.isSaved(ticket))
+                .findAny()
+                .orElseThrow(() -> new IllegalTicketException())
+                .takePackage(ticket);
     }
 
     public boolean isSaved(Ticket ticket) {
