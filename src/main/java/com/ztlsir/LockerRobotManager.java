@@ -1,5 +1,6 @@
 package com.ztlsir;
 
+import com.ztlsir.exception.IllegalTicketException;
 import com.ztlsir.exception.LockerFullException;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class LockerRobotManager {
         return this.lockers.stream()
                 .filter(locker -> locker.isSaved(ticket))
                 .findAny()
-                .get()
+                .orElseThrow(() -> new IllegalTicketException())
                 .takePackage(ticket);
 
     }

@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ztlsir.fixture.LockerAssertFixture.assertThrowLockerFullException;
-import static com.ztlsir.fixture.LockerAssertFixture.assertTicketAndPackSavedLocker;
+import static com.ztlsir.fixture.LockerAssertFixture.*;
 import static com.ztlsir.fixture.LockerCreatorFixture.createAvailableLocker;
 import static com.ztlsir.fixture.LockerCreatorFixture.createFullLocker;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -85,15 +84,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * When 取包
  * Then 取包成功
  * <p>
- * Given LockerRobotManager管理着2个有容量的locker，一张包存在第1个locker的有效票
+ * done Given LockerRobotManager管理着2个有容量的locker，一张包存在第1个locker的有效票
  * When 取包
  * Then 取包成功
  * <p>
- * Given LockerRobotManager管理着2个有容量的locker，一张包存在第2个locker的有效票
+ * done Given LockerRobotManager管理着2个有容量的locker，一张包存在第2个locker的有效票
  * When 取包
  * Then 取包成功
  * <p>
- * todo Given LockerRobotManager管理着2个有容量的机器人和2个有容量的locker，一张伪造票据
+ * done Given LockerRobotManager管理着2个有容量的机器人和2个有容量的locker，一张伪造票据
  * When 取包
  * Then 取包失败，提示非法票据
  * <p>
@@ -319,6 +318,18 @@ public class LockerRobotManagerTest {
         LockerRobotManager manager = LockerRobotManager.create(lockers);
 
         verifyTakePackage(manager, lockers, 1);
+    }
+
+    @Test
+    public void should_throw_ilLegal_ticket_exception_when_take_package_given_locker_robot_manager_manage_two_available_robot_and_two_available_locker_and_one_fake_ticket() {
+        LockerRobotManager manager = new LockerRobotManager(
+                Arrays.asList(
+                        new PrimaryLockerRobot(createAvailableLockers(1)),
+                        new SmartLockerRobot(createAvailableLockers(1))),
+                createAvailableLockers(2));
+        manager.savePackage(new Pack());
+
+        assertThrowIllegalTicketException(() -> manager.takePackage(new Ticket("fake_ticket")));
     }
 
     private static void verifyTakePackage(LockerRobotManager manager, List<Locker> lockers, int savePackageLockerIndex) {
