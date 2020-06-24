@@ -100,7 +100,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * When 取包
  * Then 取包失败，提示非法票据
  * <p>
- * todo Given LockerRobotManager管理着2个有容量的locker，一张伪造票据
+ * done Given LockerRobotManager管理着2个有容量的locker，一张伪造票据
  * When 取包
  * Then 取包失败，提示非法票据
  */
@@ -329,7 +329,7 @@ public class LockerRobotManagerTest {
                 createAvailableLockers(2));
         manager.savePackage(new Pack());
 
-        assertThrowIllegalTicketExceptionWhileTakePackage(manager);
+        assertThrowIllegalTicketExceptionWhileTakePackageWithFakeTicket(manager);
     }
 
     @Test
@@ -340,10 +340,18 @@ public class LockerRobotManagerTest {
                         new SmartLockerRobot(createAvailableLockers(1))));
         manager.savePackage(new Pack());
 
-        assertThrowIllegalTicketExceptionWhileTakePackage(manager);
+        assertThrowIllegalTicketExceptionWhileTakePackageWithFakeTicket(manager);
     }
 
-    private static void assertThrowIllegalTicketExceptionWhileTakePackage(LockerRobotManager manager) {
+    @Test
+    public void should_throw_ilLegal_ticket_exception_when_take_package_given_locker_robot_manager_manage_two_available_locker_and_one_fake_ticket() {
+        LockerRobotManager manager = LockerRobotManager.create(createAvailableLockers(2));
+        manager.savePackage(new Pack());
+
+        assertThrowIllegalTicketExceptionWhileTakePackageWithFakeTicket(manager);
+    }
+
+    private static void assertThrowIllegalTicketExceptionWhileTakePackageWithFakeTicket(LockerRobotManager manager) {
         assertThrowIllegalTicketException(() -> manager.takePackage(new Ticket("fake_ticket")));
     }
 
