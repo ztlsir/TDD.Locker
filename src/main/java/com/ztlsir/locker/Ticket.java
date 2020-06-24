@@ -9,14 +9,17 @@ public class Ticket {
         this.serialNo = serialNo;
     }
 
-    public String getSerialNo()
-    {
+    public String getSerialNo() {
         return this.serialNo;
     }
 
     @Override
     public boolean equals(Object anTicket) {
-        return this.equals((Ticket) anTicket);
+        if (anTicket instanceof Ticket) {
+            return this.equals((Ticket) anTicket);
+        }
+
+        return false;
     }
 
     private boolean equals(Ticket anTicket) {
@@ -29,8 +32,7 @@ public class Ticket {
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int PRIME = 59;
         int result = 1;
         final Object $serialNo = this.getSerialNo();
