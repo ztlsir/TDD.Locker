@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ztlsir.fixture.LockerFixture.*;
+import static com.ztlsir.fixture.LockerAssertFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -96,10 +96,7 @@ public class SmartLockerRobotTest {
         SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(0), new Locker(0)));
         Pack preSavePack = new Pack();
 
-        LockerFullException exception = assertThrows(
-                LockerFullException.class,
-                () -> smartLockerRobot.savePackage(preSavePack));
-        assertEquals(lockerFullErrorMessage, exception.getMessage());
+        assertThrowLockerFullException(smartLockerRobot, preSavePack);
     }
 
     @Test
@@ -156,10 +153,7 @@ public class SmartLockerRobotTest {
         SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(0), firstLocker));
         smartLockerRobot.savePackage(new Pack());
 
-        LockerFullException exception = assertThrows(
-                LockerFullException.class,
-                () -> smartLockerRobot.savePackage(new Pack()));
-        assertEquals(lockerFullErrorMessage, exception.getMessage());
+        assertThrowLockerFullException(smartLockerRobot, new Pack());
     }
 
     @Test

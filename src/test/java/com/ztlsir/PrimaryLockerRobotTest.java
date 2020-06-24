@@ -1,12 +1,12 @@
 package com.ztlsir;
 
 import com.ztlsir.exception.IllegalTicketException;
-import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static com.ztlsir.fixture.LockerFixture.*;
+import static com.ztlsir.fixture.LockerAssertFixture.*;
+import static com.ztlsir.fixture.LockerCreatorFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
@@ -64,10 +64,7 @@ public class PrimaryLockerRobotTest {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createFullLocker(), createFullLocker()));
         Pack preSavePack = new Pack();
 
-        LockerFullException exception = assertThrows(
-                LockerFullException.class,
-                () -> primaryLockerRobot.savePackage(preSavePack));
-        assertEquals(lockerFullErrorMessage, exception.getMessage());
+        assertThrowLockerFullException(primaryLockerRobot, preSavePack);
     }
 
     @Test

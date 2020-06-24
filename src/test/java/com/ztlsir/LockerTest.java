@@ -4,7 +4,8 @@ import com.ztlsir.exception.IllegalTicketException;
 import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.Test;
 
-import static com.ztlsir.fixture.LockerFixture.*;
+import static com.ztlsir.fixture.LockerAssertFixture.*;
+import static com.ztlsir.fixture.LockerCreatorFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*

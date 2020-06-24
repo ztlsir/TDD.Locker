@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ztlsir.fixture.LockerFixture.*;
+import static com.ztlsir.fixture.LockerAssertFixture.*;
+import static com.ztlsir.fixture.LockerCreatorFixture.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
