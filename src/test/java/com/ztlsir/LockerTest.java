@@ -1,12 +1,12 @@
 package com.ztlsir;
 
-import com.ztlsir.exception.IllegalTicketException;
 import org.junit.jupiter.api.Test;
 
 import static com.ztlsir.fixture.LockerAssertFixture.*;
 import static com.ztlsir.fixture.LockerCreatorFixture.createAvailableLocker;
 import static com.ztlsir.fixture.LockerCreatorFixture.createFullLocker;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /*
 Given 储物柜没满 When 存包 Then 获得一张有效票据

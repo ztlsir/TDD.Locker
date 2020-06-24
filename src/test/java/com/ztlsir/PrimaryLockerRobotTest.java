@@ -4,9 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static com.ztlsir.fixture.LockerAssertFixture.*;
+import static com.ztlsir.fixture.LockerAssertFixture.assertTicketAndPackSavedLocker;
 import static com.ztlsir.fixture.LockerCreatorFixture.createAvailableLocker;
 import static com.ztlsir.fixture.LockerCreatorFixture.createFullLocker;
+import static com.ztlsir.fixture.LockerRobotAssertFixture.assertThrowIllegalTicketExceptionWhileTakePackage;
+import static com.ztlsir.fixture.LockerRobotAssertFixture.assertThrowLockerFullExceptionWhileSavePackage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*
@@ -58,7 +60,7 @@ public class PrimaryLockerRobotTest {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createFullLocker(), createFullLocker()));
         Pack preSavePack = new Pack();
 
-        assertThrowLockerFullException(primaryLockerRobot, preSavePack);
+        assertThrowLockerFullExceptionWhileSavePackage(primaryLockerRobot, preSavePack);
     }
 
     @Test
@@ -87,7 +89,7 @@ public class PrimaryLockerRobotTest {
     public void should_throw_ilLegal_ticket_exception_when_take_package_given_fake_ticket() {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createFullLocker(), createAvailableLocker()));
 
-        assertThrowIllegalTicketException(primaryLockerRobot, "fake_ticket");
+        assertThrowIllegalTicketExceptionWhileTakePackage(primaryLockerRobot, "fake_ticket");
     }
 
     @Test
@@ -97,7 +99,7 @@ public class PrimaryLockerRobotTest {
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
         primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
 
-        assertThrowIllegalTicketException(primaryLockerRobot, ticket.getSerialNo());
+        assertThrowIllegalTicketExceptionWhileTakePackage(primaryLockerRobot, ticket.getSerialNo());
     }
 
     @Test
@@ -107,6 +109,6 @@ public class PrimaryLockerRobotTest {
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
         primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
 
-        assertThrowIllegalTicketException(primaryLockerRobot, ticket.getSerialNo());
+        assertThrowIllegalTicketExceptionWhileTakePackage(primaryLockerRobot, ticket.getSerialNo());
     }
 }

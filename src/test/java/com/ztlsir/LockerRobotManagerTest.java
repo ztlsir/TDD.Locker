@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ztlsir.fixture.LockerAssertFixture.*;
-import static com.ztlsir.fixture.LockerCreatorFixture.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static com.ztlsir.fixture.LockerAssertFixture.assertThrowLockerFullException;
+import static com.ztlsir.fixture.LockerAssertFixture.assertTicketAndPackSavedLocker;
+import static com.ztlsir.fixture.LockerCreatorFixture.createAvailableLocker;
+import static com.ztlsir.fixture.LockerCreatorFixture.createFullLocker;
 
 /**
  * done Given LockerRobotManager管理着2个有容量的机器人、和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot
@@ -56,7 +56,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * When 存包
  * Then 存包失败，提示储物柜已满
  * <p>
- * todo Given LockerRobotManager管理着2个没有容量的locker
+ * done Given LockerRobotManager管理着2个没有容量的locker
  * When 存包
  * Then 存包失败，提示储物柜已满
  * <p>
@@ -212,7 +212,7 @@ public class LockerRobotManagerTest {
                 createFullLockers());
         Pack preSavePack = new Pack();
 
-        assertThrowLockerFullException(() -> manager.savePackage(preSavePack));
+        assertThrowLockerFullExceptionWhileSavePackage(manager, preSavePack);
     }
 
     @Test
@@ -223,6 +223,18 @@ public class LockerRobotManagerTest {
                         new PrimaryLockerRobot(createFullLockers())));
         Pack preSavePack = new Pack();
 
+        assertThrowLockerFullExceptionWhileSavePackage(manager, preSavePack);
+    }
+
+    @Test
+    public void should_throw_locker_full_exception_when_save_package_given_locker_robot_manager_manage_two_full_locker() {
+        LockerRobotManager manager = LockerRobotManager.create(createFullLockers());
+        Pack preSavePack = new Pack();
+
+        assertThrowLockerFullExceptionWhileSavePackage(manager, preSavePack);
+    }
+
+    private static void assertThrowLockerFullExceptionWhileSavePackage(LockerRobotManager manager, Pack preSavePack) {
         assertThrowLockerFullException(() -> manager.savePackage(preSavePack));
     }
 

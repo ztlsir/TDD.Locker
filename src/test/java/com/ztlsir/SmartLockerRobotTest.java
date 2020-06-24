@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ztlsir.fixture.LockerAssertFixture.*;
+import static com.ztlsir.fixture.LockerAssertFixture.assertTicketAndPackSavedLocker;
+import static com.ztlsir.fixture.LockerRobotAssertFixture.assertThrowIllegalTicketExceptionWhileTakePackage;
+import static com.ztlsir.fixture.LockerRobotAssertFixture.assertThrowLockerFullExceptionWhileSavePackage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -84,7 +86,7 @@ public class SmartLockerRobotTest {
         SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(0), new Locker(0)));
         Pack preSavePack = new Pack();
 
-        assertThrowLockerFullException(smartLockerRobot, preSavePack);
+        assertThrowLockerFullExceptionWhileSavePackage(smartLockerRobot, preSavePack);
     }
 
     @Test
@@ -102,7 +104,7 @@ public class SmartLockerRobotTest {
     public void should_throw_ilLegal_ticket_exception_when_take_package_by_smart_locker_robot_given_smart_and_primary_locker_robot_manage_two_lockers_and_a_fake_ticket() {
         SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(5), new Locker(5)));
 
-        assertThrowIllegalTicketException(smartLockerRobot, "fake_ticket");
+        assertThrowIllegalTicketExceptionWhileTakePackage(smartLockerRobot, "fake_ticket");
     }
 
     @Test
@@ -137,7 +139,7 @@ public class SmartLockerRobotTest {
         SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(0), firstLocker));
         smartLockerRobot.savePackage(new Pack());
 
-        assertThrowLockerFullException(smartLockerRobot, new Pack());
+        assertThrowLockerFullExceptionWhileSavePackage(smartLockerRobot, new Pack());
     }
 
     @Test
