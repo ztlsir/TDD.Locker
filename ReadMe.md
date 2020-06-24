@@ -99,7 +99,7 @@ Then 获得一张有效票据，包存到第2个locker
 
 Given LockerRobotManager管理着2个有容量的机器人，第1个机器人为SmartLockerRobot，第2个机器人为PrimaryLockerRobot
 When 存包
-Then 获得一张有效票据，包存到PrimaryLockerRobot管理的locker
+Then 获得一张有效票据，包存到SmartLockerRobot管理的locker
 
 Given LockerRobotManager管理着2个机器人，第1个机器人SmartLockerRobot没有容量，第2个机器人PrimaryLockerRobot有容量
 When 存包

@@ -1,5 +1,6 @@
 package com.ztlsir;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,10 @@ public class LockerRobotManager {
     public LockerRobotManager(List<BaseLockerRobot> lockerRobots, List<Locker> lockers) {
         this.lockerRobots = lockerRobots;
         this.lockers = lockers;
+    }
+
+    public LockerRobotManager(List<BaseLockerRobot> lockerRobots) {
+        this(lockerRobots,new ArrayList<Locker>());
     }
 
     public Ticket savePackage(Pack pack) {

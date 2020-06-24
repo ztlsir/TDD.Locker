@@ -30,9 +30,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * When 存包
  * Then 获得一张有效票据，包存到第2个locker
  * <p>
- * todo Given LockerRobotManager管理着2个有容量的机器人，第1个机器人为SmartLockerRobot，第2个机器人为PrimaryLockerRobot
+ * Given LockerRobotManager管理着2个有容量的机器人，第1个机器人为SmartLockerRobot，第2个机器人为PrimaryLockerRobot
  * When 存包
- * Then 获得一张有效票据，包存到PrimaryLockerRobot管理的locker
+ * Then 获得一张有效票据，包存到SmartLockerRobot管理的locker
  * <p>
  * todo Given LockerRobotManager管理着2个机器人，第1个机器人SmartLockerRobot没有容量，第2个机器人PrimaryLockerRobot有容量
  * When 存包
@@ -161,6 +161,17 @@ public class LockerRobotManagerTest {
                 lockers);
 
         verifySaveToSpecifiedPositionOfLockers(manager, lockers, 2);
+    }
+
+    @Test
+    public void should_return_ticket_and_save_to_locker_of_smart_locker_robot_when_save_package_given_locker_robot_manager_manage_two_available_robot_that_locker_robot_is_smart_and_primary() {
+        List<Locker> smartAvailableLockers = createAvailableLockers(1);
+        LockerRobotManager manager = new LockerRobotManager(
+                Arrays.asList(
+                        new SmartLockerRobot(smartAvailableLockers),
+                        new PrimaryLockerRobot(createAvailableLockers(1))));
+
+        verifySaveToFisrtOfLockers(smartAvailableLockers, manager);
     }
 
     private static void verifySaveToFisrtOfLockers(List<Locker> lockers, LockerRobotManager manager) {
