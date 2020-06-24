@@ -8,13 +8,17 @@ public class LockerRobotManager {
     private final List<BaseLockerRobot> lockerRobots;
     private final List<Locker> lockers;
 
+    public static LockerRobotManager create(List<Locker> lockers) {
+        return new LockerRobotManager(new ArrayList<BaseLockerRobot>(), lockers);
+    }
+
     public LockerRobotManager(List<BaseLockerRobot> lockerRobots, List<Locker> lockers) {
         this.lockerRobots = lockerRobots;
         this.lockers = lockers;
     }
 
     public LockerRobotManager(List<BaseLockerRobot> lockerRobots) {
-        this(lockerRobots,new ArrayList<Locker>());
+        this(lockerRobots, new ArrayList<Locker>());
     }
 
     public Ticket savePackage(Pack pack) {
