@@ -1,5 +1,6 @@
 package com.ztlsir;
 
+import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import static com.ztlsir.fixture.LockerFixture.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * done Given LockerRobotManager管理着2个有容量的机器人、和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot
@@ -46,7 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * When 存包
  * Then 获得一张有效票据，包存到第2个locker
  * <p>
- * todo Given LockerRobotManager管理着2个没有容量的机器人和2个没有容量的locker
+ * done Given LockerRobotManager管理着2个没有容量的机器人和2个没有容量的locker
  * When 存包
  * Then 存包失败，提示储物柜已满
  * <p>
@@ -199,6 +201,21 @@ public class LockerRobotManagerTest {
         LockerRobotManager manager = LockerRobotManager.create(lockers);
 
         verifySaveToSpecifiedPositionOfLockers(manager, lockers, 2);
+    }
+
+    @Test
+    public void should_throw_locker_full_exception_when_save_package_given_locker_robot_manager_manage_two_full_robot_and_two_full_locker() {
+        LockerRobotManager manager = new LockerRobotManager(
+                Arrays.asList(
+                        new SmartLockerRobot(createFullLockers()),
+                        new PrimaryLockerRobot(createFullLockers())),
+                createFullLockers());
+        Pack preSavePack = new Pack();
+
+        LockerFullException exception = assertThrows(
+                LockerFullException.class,
+                () -> manager.savePackage(preSavePack));
+        assertEquals(lockerFullErrorMessage, exception.getMessage());
     }
 
     private static void verifySaveToFisrtOfLockers(List<Locker> lockers, LockerRobotManager manager) {
