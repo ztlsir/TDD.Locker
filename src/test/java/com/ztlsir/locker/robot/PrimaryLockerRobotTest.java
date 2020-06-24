@@ -6,6 +6,7 @@ import com.ztlsir.locker.Ticket;
 import com.ztlsir.locker.fixture.LockerAssertFixture;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static com.ztlsir.locker.fixture.LockerCreatorFixture.createAvailableLocker;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Given 一张有效票据 When 取包 Then 取包成功
  * Given 一张伪造票据 When 取包 Then 取包失败，提示非法票据
  * Given 一张已取过包的票据 When 取包 Then 取包失败，提示非法票据
+ * Given 机器人管理0个储物柜 When 存包 Then 提示存包失败
  * */
 public class PrimaryLockerRobotTest {
 
@@ -113,5 +115,13 @@ public class PrimaryLockerRobotTest {
         primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
 
         assertThrowIllegalTicketExceptionWhileTakePackage(primaryLockerRobot, ticket.getSerialNo());
+    }
+
+    @Test
+    public void should_throw_locker_full_exception_when_save_package_given_robot_manage_0_lockers() {
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(new ArrayList<>());
+        Pack preSavePack = new Pack();
+
+        assertThrowLockerFullExceptionWhileSavePackage(primaryLockerRobot, preSavePack);
     }
 }

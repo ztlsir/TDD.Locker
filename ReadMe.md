@@ -27,6 +27,8 @@ Given 一张伪造票据 When 取包 Then 取包失败，提示非法票据
 
 Given 一张已取过包的票据 When 取包 Then 取包失败，提示非法票据
 
+Given 机器人管理0个储物柜 When 存包 Then 提示存包失败
+
 ## Smart Locker Root Tasking
 Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜容量为5，第2个储物柜容量为5
 When 存包
