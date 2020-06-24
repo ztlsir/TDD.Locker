@@ -1,6 +1,5 @@
 package com.ztlsir;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class SmartLockerRobot extends ManageLockersRobot {
@@ -10,9 +9,6 @@ public class SmartLockerRobot extends ManageLockersRobot {
 
     @Override
     public Ticket savePackage(Pack pack) {
-        return lockers.stream()
-                .max(Comparator.comparing(Locker::getRemainingCapacity))
-                .get()
-                .savePackage(pack);
+        return lockers.saveToMaxRemainingCapacityLocker(pack);
     }
 }

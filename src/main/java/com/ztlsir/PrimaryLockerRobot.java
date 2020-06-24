@@ -1,7 +1,5 @@
 package com.ztlsir;
 
-import com.ztlsir.exception.LockerFullException;
-
 import java.util.List;
 
 public class PrimaryLockerRobot extends ManageLockersRobot {
@@ -11,10 +9,6 @@ public class PrimaryLockerRobot extends ManageLockersRobot {
 
     @Override
     public Ticket savePackage(Pack pack) {
-        return this.lockers.stream()
-                .filter(Locker::isNotFull)
-                .findFirst()
-                .orElseThrow(LockerFullException::new)
-                .savePackage(pack);
+        return this.lockers.saveToFirstAvailableLocker(pack);
     }
 }

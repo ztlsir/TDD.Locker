@@ -9,10 +9,10 @@ public abstract class ManageLockersRobot extends BaseLockerRobot {
     }
 
     boolean isSaved(Ticket ticket) {
-        return this.lockers.stream().anyMatch(locker -> locker.isSaved(ticket));
+        return this.lockers.isSaved(ticket);
     }
 
     boolean isNotFull() {
-        return this.lockers.stream().anyMatch(Locker::isNotFull);
+        return this.lockers.isNotFull();
     }
 }

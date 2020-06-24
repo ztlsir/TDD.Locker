@@ -1,7 +1,5 @@
 package com.ztlsir;
 
-import com.ztlsir.exception.LockerFullException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,11 +30,7 @@ public class LockerRobotManager extends BaseLockerRobot {
             return optionalLockerRobot.get().savePackage(pack);
         }
 
-        return this.lockers.stream()
-                .filter(Locker::isNotFull)
-                .findFirst()
-                .orElseThrow(LockerFullException::new)
-                .savePackage(pack);
+        return this.lockers.saveToFirstAvailableLocker(pack);
     }
 
     public Pack takePackage(Ticket ticket) {
