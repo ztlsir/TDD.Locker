@@ -114,14 +114,14 @@ public class PrimaryLockerRobotTest {
     }
 
     @Test
-    public void should_throw_take_failed_exception_when_take_package_given_has_taken_ticket_from_2nd_locker() {
+    public void should_throw_ilLegal_ticket_exception_when_take_package_given_has_taken_ticket_from_2nd_locker() {
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(createFullLocker(), createAvailableLocker()));
         Pack preSavePack = new Pack();
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
         primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo()));
 
         Exception exception = assertThrows(
-                RuntimeException.class,
+                IllegalTicketException.class,
                 () -> primaryLockerRobot.takePackage(new Ticket(ticket.getSerialNo())));
 
         assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
