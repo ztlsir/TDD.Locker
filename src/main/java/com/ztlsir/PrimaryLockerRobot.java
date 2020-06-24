@@ -4,7 +4,7 @@ import com.ztlsir.exception.LockerFullException;
 
 import java.util.List;
 
-public class PrimaryLockerRobot extends BaseLockerRobot {
+public class PrimaryLockerRobot extends ManageLockersRobot {
     public PrimaryLockerRobot(List<Locker> lockers) {
         super(lockers);
     }

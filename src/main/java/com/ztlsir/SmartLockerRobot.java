@@ -3,7 +3,7 @@ package com.ztlsir;
 import java.util.Comparator;
 import java.util.List;
 
-public class SmartLockerRobot extends BaseLockerRobot {
+public class SmartLockerRobot extends ManageLockersRobot {
     public SmartLockerRobot(List<Locker> lockers) {
         super(lockers);
     }

@@ -1,59 +1,54 @@
 package com.ztlsir;
 
-import com.ztlsir.exception.IllegalTicketException;
 import com.ztlsir.exception.LockerFullException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class LockerRobotManager {
-    private final List<BaseLockerRobot> lockerRobots;
-    private final List<Locker> lockers;
+public class LockerRobotManager extends BaseLockerRobot {
+    private final List<ManageLockersRobot> manageLockersRobots;
 
     public static LockerRobotManager create(List<Locker> lockers) {
-        return new LockerRobotManager(new ArrayList<BaseLockerRobot>(), lockers);
+        return new LockerRobotManager(new ArrayList<>(), lockers);
     }
 
-    public LockerRobotManager(List<BaseLockerRobot> lockerRobots, List<Locker> lockers) {
-        this.lockerRobots = lockerRobots;
-        this.lockers = lockers;
+    public LockerRobotManager(List<ManageLockersRobot> manageLockersRobots, List<Locker> lockers) {
+        super(lockers);
+        this.manageLockersRobots = manageLockersRobots;
     }
 
-    public LockerRobotManager(List<BaseLockerRobot> lockerRobots) {
-        this(lockerRobots, new ArrayList<Locker>());
+    public LockerRobotManager(List<ManageLockersRobot> manageLockersRobots) {
+        this(manageLockersRobots, new ArrayList<>());
     }
 
+    @Override
     public Ticket savePackage(Pack pack) {
-        Optional<BaseLockerRobot> optionalBaseLockerRobot = this.lockerRobots.stream()
-                .filter(lockerRobot -> lockerRobot.lockers.stream().anyMatch(locker -> locker.isNotFull()))
+        Optional<ManageLockersRobot> optionalLockerRobot = this.manageLockersRobots.stream()
+                .filter(ManageLockersRobot::isNotFull)
                 .findFirst();
 
-        if (optionalBaseLockerRobot.isPresent()) {
-            return optionalBaseLockerRobot.get().savePackage(pack);
+        if (optionalLockerRobot.isPresent()) {
+            return optionalLockerRobot.get().savePackage(pack);
         }
 
         return this.lockers.stream()
-                .filter(locker -> locker.isNotFull())
+                .filter(Locker::isNotFull)
                 .findFirst()
-                .orElseThrow(() -> new LockerFullException())
+                .orElseThrow(LockerFullException::new)
                 .savePackage(pack);
     }
 
     public Pack takePackage(Ticket ticket) {
-        Optional<BaseLockerRobot> optionalBaseLockerRobot = this.lockerRobots.stream()
+        Optional<ManageLockersRobot> optionalLockerRobot = this.manageLockersRobots.stream()
                 .filter(lockerRobot -> lockerRobot.isSaved(ticket))
                 .findAny();
 
-        if (optionalBaseLockerRobot.isPresent()) {
-            return optionalBaseLockerRobot.get().takePackage(ticket);
+        if (optionalLockerRobot.isPresent()) {
+            return optionalLockerRobot.get().takePackage(ticket);
         }
 
-        return this.lockers.stream()
-                .filter(locker -> locker.isSaved(ticket))
-                .findAny()
-                .orElseThrow(() -> new IllegalTicketException())
-                .takePackage(ticket);
+        return super.takePackage(ticket);
 
     }
 }
