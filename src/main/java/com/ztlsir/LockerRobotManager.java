@@ -21,6 +21,10 @@ public class LockerRobotManager {
             return optionalBaseLockerRobot.get().savePackage(pack);
         }
 
-        return lockers.get(0).savePackage(pack);
+        return lockers.stream()
+                .filter(locker -> locker.isNotFull())
+                .findFirst()
+                .get()
+                .savePackage(pack);
     }
 }
