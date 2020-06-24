@@ -1,5 +1,7 @@
 package com.ztlsir.locker;
 
+import java.util.Objects;
+
 public class Ticket {
     private String serialNo;
 
@@ -17,16 +19,13 @@ public class Ticket {
         return this.equals((Ticket) anTicket);
     }
 
-    public boolean equals(Ticket anTicket) {
+    private boolean equals(Ticket anTicket) {
         if (this == anTicket) {
             return true;
         }
 
-        if (this.serialNo == anTicket.serialNo) {
-            return true;
-        }
+        return Objects.equals(this.serialNo, anTicket.serialNo);
 
-        return false;
     }
 
     @Override
