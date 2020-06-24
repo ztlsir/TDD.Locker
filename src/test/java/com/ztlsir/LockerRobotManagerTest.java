@@ -85,7 +85,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * When 取包
  * Then 取包成功
  * <p>
- * todo Given LockerRobotManager管理着2个有容量的locker，一张包存在第1个locker的有效票
+ * Given LockerRobotManager管理着2个有容量的locker，一张包存在第1个locker的有效票
  * When 取包
  * Then 取包成功
  * <p>
@@ -243,12 +243,8 @@ public class LockerRobotManagerTest {
                         new PrimaryLockerRobot(primaryAvailableLockers),
                         new SmartLockerRobot(createAvailableLockers(1))),
                 createAvailableLockers(2));
-        Pack preSavePack = new Pack();
-        Ticket ticket = primaryAvailableLockers.get(0).savePackage(preSavePack);
 
-        Pack pack = manager.takePackage(new Ticket(ticket.getSerialNo()));
-
-        assertEquals(preSavePack, pack);
+        verifyTakePackage(manager, primaryAvailableLockers, 0);
     }
 
     @Test
@@ -259,12 +255,8 @@ public class LockerRobotManagerTest {
                         new PrimaryLockerRobot(createAvailableLockers(1)),
                         new SmartLockerRobot(smartAvailableLockers)),
                 createAvailableLockers(2));
-        Pack preSavePack = new Pack();
-        Ticket ticket = smartAvailableLockers.get(0).savePackage(preSavePack);
 
-        Pack pack = manager.takePackage(new Ticket(ticket.getSerialNo()));
-
-        assertEquals(preSavePack, pack);
+        verifyTakePackage(manager, smartAvailableLockers, 0);
     }
 
     @Test
@@ -275,14 +267,9 @@ public class LockerRobotManagerTest {
                         new PrimaryLockerRobot(createAvailableLockers(1)),
                         new SmartLockerRobot(createAvailableLockers(1))),
                 lockers);
-        Pack preSavePack = new Pack();
-        Ticket ticket = lockers.get(0).savePackage(preSavePack);
 
-        Pack pack = manager.takePackage(new Ticket(ticket.getSerialNo()));
-
-        assertEquals(preSavePack, pack);
+        verifyTakePackage(manager, lockers, 0);
     }
-
 
     @Test
     public void should_take_package_by_ticket_when_take_package_given_locker_robot_manager_manage_two_available_robot_and_two_available_locker_and_one_valid_ticket_from_2nd_locker_that_locker_robot_is_primary_and_smart() {
@@ -292,12 +279,8 @@ public class LockerRobotManagerTest {
                         new PrimaryLockerRobot(createAvailableLockers(1)),
                         new SmartLockerRobot(createAvailableLockers(1))),
                 lockers);
-        Pack preSavePack = new Pack();
-        Ticket ticket = lockers.get(1).savePackage(preSavePack);
 
-        Pack pack = manager.takePackage(new Ticket(ticket.getSerialNo()));
-
-        assertEquals(preSavePack, pack);
+        verifyTakePackage(manager, lockers, 1);
     }
 
     @Test
@@ -307,12 +290,8 @@ public class LockerRobotManagerTest {
                 Arrays.asList(
                         new PrimaryLockerRobot(primaryAvailableLockers),
                         new SmartLockerRobot(createAvailableLockers(1))));
-        Pack preSavePack = new Pack();
-        Ticket ticket = primaryAvailableLockers.get(0).savePackage(preSavePack);
 
-        Pack pack = manager.takePackage(new Ticket(ticket.getSerialNo()));
-
-        assertEquals(preSavePack, pack);
+        verifyTakePackage(manager, primaryAvailableLockers, 0);
     }
 
     @Test
@@ -322,8 +301,21 @@ public class LockerRobotManagerTest {
                 Arrays.asList(
                         new PrimaryLockerRobot(createAvailableLockers(1)),
                         new SmartLockerRobot(smartAvailableLockers)));
+
+        verifyTakePackage(manager, smartAvailableLockers, 0);
+    }
+
+    @Test
+    public void should_take_package_by_ticket_when_take_package_given_locker_robot_manager_manage_two_available_locker_and_one_valid_ticket_from_1st_locker() {
+        List<Locker> lockers = createAvailableLockers(2);
+        LockerRobotManager manager = LockerRobotManager.create(lockers);
+
+        verifyTakePackage(manager, lockers, 0);
+    }
+
+    private static void verifyTakePackage(LockerRobotManager manager, List<Locker> lockers, int savePackageLockerIndex) {
         Pack preSavePack = new Pack();
-        Ticket ticket = smartAvailableLockers.get(0).savePackage(preSavePack);
+        Ticket ticket = lockers.get(savePackageLockerIndex).savePackage(preSavePack);
 
         Pack pack = manager.takePackage(new Ticket(ticket.getSerialNo()));
 
