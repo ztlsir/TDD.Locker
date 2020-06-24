@@ -28,9 +28,7 @@ public class PrimaryLockerRobotTest {
 
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
-        assertTicketNotEmpty(ticket);
-        Pack pack = firstLocker.takePackage(ticket);
-        assertEquals(preSavePack, pack);
+        assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
     }
 
     @Test
@@ -41,9 +39,7 @@ public class PrimaryLockerRobotTest {
 
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
-        assertTicketNotEmpty(ticket);
-        Pack pack = secondLocker.takePackage(ticket);
-        assertEquals(preSavePack, pack);
+        assertTicketAndPackSavedLocker(secondLocker, preSavePack, ticket);
     }
 
     @Test
@@ -54,9 +50,7 @@ public class PrimaryLockerRobotTest {
 
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
 
-        assertTicketNotEmpty(ticket);
-        Pack pack = firstLocker.takePackage(ticket);
-        assertEquals(preSavePack, pack);
+        assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
     }
 
     @Test

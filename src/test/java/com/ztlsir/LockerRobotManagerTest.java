@@ -1,6 +1,5 @@
 package com.ztlsir;
 
-import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -115,7 +114,7 @@ public class LockerRobotManagerTest {
                         new SmartLockerRobot(createAvailableLockers(1))),
                 createAvailableLockers(2));
 
-        verifySaveToFisrtOfLockers(primaryAvailableLockers, manager);
+        verifyTicketAndSaveToFisrtOfLockers(primaryAvailableLockers, manager);
     }
 
     @Test
@@ -127,7 +126,7 @@ public class LockerRobotManagerTest {
                         new PrimaryLockerRobot(createAvailableLockers(1))),
                 createAvailableLockers(2));
 
-        verifySaveToFisrtOfLockers(smartAvailableLockers, manager);
+        verifyTicketAndSaveToFisrtOfLockers(smartAvailableLockers, manager);
     }
 
     @Test
@@ -139,7 +138,7 @@ public class LockerRobotManagerTest {
                         new PrimaryLockerRobot(primaryAvailableLockers)),
                 createAvailableLockers(2));
 
-        verifySaveToFisrtOfLockers(primaryAvailableLockers, manager);
+        verifyTicketAndSaveToFisrtOfLockers(primaryAvailableLockers, manager);
     }
 
     @Test
@@ -151,7 +150,7 @@ public class LockerRobotManagerTest {
                         new PrimaryLockerRobot(createFullLockers())),
                 lockers);
 
-        verifySaveToFisrtOfLockers(lockers, manager);
+        verifyTicketAndSaveToFisrtOfLockers(lockers, manager);
     }
 
     @Test
@@ -163,7 +162,7 @@ public class LockerRobotManagerTest {
                         new PrimaryLockerRobot(createFullLockers())),
                 lockers);
 
-        verifySaveToSpecifiedPositionOfLockers(manager, lockers, 2);
+        verifyTicketAndSaveToSpecifiedPositionOfLockers(manager, lockers, 2);
     }
 
     @Test
@@ -174,7 +173,7 @@ public class LockerRobotManagerTest {
                         new SmartLockerRobot(smartAvailableLockers),
                         new PrimaryLockerRobot(createAvailableLockers(1))));
 
-        verifySaveToFisrtOfLockers(smartAvailableLockers, manager);
+        verifyTicketAndSaveToFisrtOfLockers(smartAvailableLockers, manager);
     }
 
     @Test
@@ -185,7 +184,7 @@ public class LockerRobotManagerTest {
                         new SmartLockerRobot(createFullLockers()),
                         new PrimaryLockerRobot(primaryAvailableLockers)));
 
-        verifySaveToFisrtOfLockers(primaryAvailableLockers, manager);
+        verifyTicketAndSaveToFisrtOfLockers(primaryAvailableLockers, manager);
     }
 
     @Test
@@ -193,7 +192,7 @@ public class LockerRobotManagerTest {
         List<Locker> lockers = createAvailableLockers(2);
         LockerRobotManager manager = LockerRobotManager.create(lockers);
 
-        verifySaveToFisrtOfLockers(lockers, manager);
+        verifyTicketAndSaveToFisrtOfLockers(lockers, manager);
     }
 
     @Test
@@ -201,7 +200,7 @@ public class LockerRobotManagerTest {
         List<Locker> lockers = Arrays.asList(createFullLocker(), createAvailableLocker());
         LockerRobotManager manager = LockerRobotManager.create(lockers);
 
-        verifySaveToSpecifiedPositionOfLockers(manager, lockers, 2);
+        verifyTicketAndSaveToSpecifiedPositionOfLockers(manager, lockers, 2);
     }
 
     @Test
@@ -216,22 +215,16 @@ public class LockerRobotManagerTest {
         assertThrowLockerFullException(() -> manager.savePackage(preSavePack));
     }
 
-    private static void verifySaveToFisrtOfLockers(List<Locker> lockers, LockerRobotManager manager) {
-        verifySaveToSpecifiedPositionOfLockers(manager, lockers, 1);
+    private static void verifyTicketAndSaveToFisrtOfLockers(List<Locker> lockers, LockerRobotManager manager) {
+        verifyTicketAndSaveToSpecifiedPositionOfLockers(manager, lockers, 1);
     }
 
-    private static void verifySaveToSpecifiedPositionOfLockers(LockerRobotManager manager, List<Locker> lockers, int specifiedPosition) {
+    private static void verifyTicketAndSaveToSpecifiedPositionOfLockers(LockerRobotManager manager, List<Locker> lockers, int specifiedPosition) {
         Pack preSavePack = new Pack();
 
         Ticket ticket = manager.savePackage(preSavePack);
 
-        assertTicketNotEmpty(ticket);
-        assertSaveToSpecifiedPositionOfLockers(lockers, preSavePack, ticket, specifiedPosition);
-    }
-
-    private static void assertSaveToSpecifiedPositionOfLockers(List<Locker> lockers, Pack preSavePack, Ticket ticket, int specifiedPosition) {
-        Pack pack = lockers.get(specifiedPosition - 1).takePackage(new Ticket(ticket.getSerialNo()));
-        assertEquals(preSavePack, pack);
+        assertTicketAndPackSavedLocker(lockers.get(specifiedPosition - 1), preSavePack, ticket);
     }
 
     private static List<Locker> createAvailableLockers(int lockerCount) {

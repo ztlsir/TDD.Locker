@@ -32,9 +32,7 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketNotEmpty(ticket);
-        Pack pack = firstLocker.takePackage(ticket);
-        assertEquals(preSavePack, pack);
+        assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
     }
 
     @Test
@@ -45,9 +43,7 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketNotEmpty(ticket);
-        Pack pack = firstLocker.takePackage(ticket);
-        assertEquals(preSavePack, pack);
+        assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
     }
 
     @Test
@@ -58,9 +54,7 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketNotEmpty(ticket);
-        Pack pack = secondLocker.takePackage(ticket);
-        assertEquals(preSavePack, pack);
+        assertTicketAndPackSavedLocker(secondLocker, preSavePack, ticket);
     }
 
     @Test
@@ -71,9 +65,7 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketNotEmpty(ticket);
-        Pack pack = secondLocker.takePackage(ticket);
-        assertEquals(preSavePack, pack);
+        assertTicketAndPackSavedLocker(secondLocker, preSavePack, ticket);
     }
 
     @Test
@@ -84,9 +76,7 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketNotEmpty(ticket);
-        Pack pack = firstLocker.takePackage(ticket);
-        assertEquals(preSavePack, pack);
+        assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
     }
 
     @Test
@@ -161,9 +151,7 @@ public class SmartLockerRobotTest {
         Pack preSavePack = new Pack();
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketNotEmpty(ticket);
-        Pack pack = firstLocker.takePackage(ticket);
-        assertEquals(preSavePack, pack);
+        assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
     }
 
     @Test
@@ -175,8 +163,6 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketNotEmpty(ticket);
-        Pack pack = secondLocker.takePackage(ticket);
-        assertEquals(preSavePack, pack);
+        assertTicketAndPackSavedLocker(secondLocker, preSavePack, ticket);
     }
 }

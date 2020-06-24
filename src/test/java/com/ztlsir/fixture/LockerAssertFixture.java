@@ -1,6 +1,7 @@
 package com.ztlsir.fixture;
 
 import com.ztlsir.BaseLockerRobot;
+import com.ztlsir.Locker;
 import com.ztlsir.Pack;
 import com.ztlsir.Ticket;
 import com.ztlsir.exception.IllegalTicketException;
@@ -17,6 +18,12 @@ public class LockerAssertFixture {
         assertNotNull(ticket);
         assertNotNull(ticket.getSerialNo());
         assertNotEquals("", ticket.getSerialNo());
+    }
+
+    public static void assertTicketAndPackSavedLocker(Locker locker, Pack preSavePack, Ticket ticket) {
+        assertTicketNotEmpty(ticket);
+        Pack pack = locker.takePackage(ticket);
+        assertEquals(preSavePack, pack);
     }
 
     public static void assertThrowLockerFullException(BaseLockerRobot lockerRobot, Pack preSavePack) {

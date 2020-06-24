@@ -50,7 +50,6 @@ public class LockerTest {
         Locker locker = createAvailableLocker();
 
         assertThrowIllegalTicketException(() -> locker.takePackage(new Ticket("fake_ticket")));
-
     }
 
     @Test
