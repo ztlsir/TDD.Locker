@@ -172,3 +172,7 @@ Then 取包失败，提示非法票据
 Given LockerRobotManager管理着2个有容量的locker，一张伪造票据
 When 取包
 Then 取包失败，提示非法票据
+
+Given LockerRobotManager管理着0个机器人和0个locker
+When 存包
+Then 存包失败，提示储物柜已满

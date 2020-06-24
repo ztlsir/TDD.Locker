@@ -106,6 +106,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * done Given LockerRobotManager管理着2个有容量的locker，一张伪造票据
  * When 取包
  * Then 取包失败，提示非法票据
+ *
+ * done Given LockerRobotManager管理着0个机器人和0个locker
+ * When 存包
+ * Then 存包失败，提示储物柜已满
  */
 public class LockerRobotManagerTest {
     @Test
@@ -352,6 +356,14 @@ public class LockerRobotManagerTest {
         manager.savePackage(new Pack());
 
         assertThrowIllegalTicketExceptionWhileTakePackageWithFakeTicket(manager);
+    }
+
+    @Test
+    public void should_throw_locker_full_exception_when_save_package_given_locker_robot_manager_manage_0_robot_and_0_locker() {
+        LockerRobotManager manager = new LockerRobotManager(new ArrayList<>(),new ArrayList<>());
+        Pack preSavePack = new Pack();
+
+        assertThrowLockerFullExceptionWhileSavePackage(manager, preSavePack);
     }
 
     private static void assertThrowIllegalTicketExceptionWhileTakePackageWithFakeTicket(LockerRobotManager manager) {
