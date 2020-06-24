@@ -89,7 +89,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * When 取包
  * Then 取包成功
  * <p>
- * todo Given LockerRobotManager管理着2个有容量的locker，一张包存在第2个locker的有效票
+ * Given LockerRobotManager管理着2个有容量的locker，一张包存在第2个locker的有效票
  * When 取包
  * Then 取包成功
  * <p>
@@ -311,6 +311,14 @@ public class LockerRobotManagerTest {
         LockerRobotManager manager = LockerRobotManager.create(lockers);
 
         verifyTakePackage(manager, lockers, 0);
+    }
+
+    @Test
+    public void should_take_package_by_ticket_when_take_package_given_locker_robot_manager_manage_two_available_locker_and_one_valid_ticket_from_2nd_locker() {
+        List<Locker> lockers = createAvailableLockers(2);
+        LockerRobotManager manager = LockerRobotManager.create(lockers);
+
+        verifyTakePackage(manager, lockers, 1);
     }
 
     private static void verifyTakePackage(LockerRobotManager manager, List<Locker> lockers, int savePackageLockerIndex) {
