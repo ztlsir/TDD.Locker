@@ -36,15 +36,15 @@ public class Locker {
         return pack;
     }
 
-    protected boolean isSaved(Ticket ticket) {
+    boolean isSaved(Ticket ticket) {
         return this.packs.containsKey(ticket);
     }
 
-    protected int getRemainingCapacity() {
+    int getRemainingCapacity() {
         return this.initCapacity - this.packs.size();
     }
 
-    protected boolean isNotFull() {
+    boolean isNotFull() {
         return !this.isFull();
     }
 
