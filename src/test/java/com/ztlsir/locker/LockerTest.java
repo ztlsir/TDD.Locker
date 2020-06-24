@@ -1,10 +1,9 @@
-package com.ztlsir;
+package com.ztlsir.locker;
 
+import com.ztlsir.locker.fixture.LockerAssertFixture;
+import com.ztlsir.locker.fixture.LockerCreatorFixture;
 import org.junit.jupiter.api.Test;
 
-import static com.ztlsir.fixture.LockerAssertFixture.*;
-import static com.ztlsir.fixture.LockerCreatorFixture.createAvailableLocker;
-import static com.ztlsir.fixture.LockerCreatorFixture.createFullLocker;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -20,23 +19,23 @@ Given 两张有效票据 When 取包 Then 成功取到每张票据对应的包
 public class LockerTest {
     @Test
     public void should_return_ticket_when_save_package_given_locker_is_not_full() {
-        Locker locker = createAvailableLocker();
+        Locker locker = LockerCreatorFixture.createAvailableLocker();
 
         Ticket ticket = locker.savePackage(new Pack());
 
-        assertTicketNotEmpty(ticket);
+        LockerAssertFixture.assertTicketNotEmpty(ticket);
     }
 
     @Test
     public void should_throw_locker_full_exception_when_save_package_given_locker_is_full() {
-        Locker locker = createFullLocker();
+        Locker locker = LockerCreatorFixture.createFullLocker();
 
-        assertThrowLockerFullException(() -> locker.savePackage(new Pack()));
+        LockerAssertFixture.assertThrowLockerFullException(() -> locker.savePackage(new Pack()));
     }
 
     @Test
     public void should_take_package_by_ticket_when_take_package_given_useful_ticket() {
-        Locker locker = createAvailableLocker();
+        Locker locker = LockerCreatorFixture.createAvailableLocker();
         Pack preSavePack = new Pack();
         Ticket ticket = locker.savePackage(preSavePack);
 
@@ -47,35 +46,35 @@ public class LockerTest {
 
     @Test
     public void should_throw_ilLegal_ticket_exception_when_take_package_given_fake_ticket() {
-        Locker locker = createAvailableLocker();
+        Locker locker = LockerCreatorFixture.createAvailableLocker();
 
-        assertThrowIllegalTicketException(() -> locker.takePackage(new Ticket("fake_ticket")));
+        LockerAssertFixture.assertThrowIllegalTicketException(() -> locker.takePackage(new Ticket("fake_ticket")));
     }
 
     @Test
     public void should_throw_ilLegal_ticket_exception_when_take_package_given_has_taken_ticket() {
-        Locker locker = createAvailableLocker();
+        Locker locker = LockerCreatorFixture.createAvailableLocker();
         Ticket ticket = locker.savePackage(new Pack());
         locker.takePackage(new Ticket(ticket.getSerialNo()));
 
-        assertThrowIllegalTicketException(() -> locker.takePackage(new Ticket(ticket.getSerialNo())));
+        LockerAssertFixture.assertThrowIllegalTicketException(() -> locker.takePackage(new Ticket(ticket.getSerialNo())));
     }
 
     @Test
     public void should_return_two_ticket_when_save_two_package_given_locker_is_not_full() {
-        Locker locker = createAvailableLocker();
+        Locker locker = LockerCreatorFixture.createAvailableLocker();
 
         Ticket firstTicket = locker.savePackage(new Pack());
         Ticket secondTicket = locker.savePackage(new Pack());
 
-        assertTicketNotEmpty(firstTicket);
-        assertTicketNotEmpty(secondTicket);
+        LockerAssertFixture.assertTicketNotEmpty(firstTicket);
+        LockerAssertFixture.assertTicketNotEmpty(secondTicket);
         assertNotEquals(firstTicket, secondTicket);
     }
 
     @Test
     public void should_take_two_package_by_two_ticket_when_take_package_given_two_ticket_is_valid() {
-        Locker locker = createAvailableLocker();
+        Locker locker = LockerCreatorFixture.createAvailableLocker();
         Pack firstPreSavePack = new Pack();
         Ticket firstTicket = locker.savePackage(firstPreSavePack);
         Pack secondPreSavePack = new Pack();

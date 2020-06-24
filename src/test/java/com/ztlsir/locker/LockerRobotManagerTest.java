@@ -1,4 +1,4 @@
-package com.ztlsir;
+package com.ztlsir.locker;
 
 import org.junit.jupiter.api.Test;
 
@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ztlsir.fixture.LockerAssertFixture.*;
-import static com.ztlsir.fixture.LockerCreatorFixture.createAvailableLocker;
-import static com.ztlsir.fixture.LockerCreatorFixture.createFullLocker;
+import static com.ztlsir.locker.fixture.LockerAssertFixture.*;
+import static com.ztlsir.locker.fixture.LockerCreatorFixture.createAvailableLocker;
+import static com.ztlsir.locker.fixture.LockerCreatorFixture.createFullLocker;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

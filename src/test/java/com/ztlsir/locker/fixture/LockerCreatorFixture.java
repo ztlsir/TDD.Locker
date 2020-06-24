@@ -1,6 +1,6 @@
-package com.ztlsir.fixture;
+package com.ztlsir.locker.fixture;
 
-import com.ztlsir.Locker;
+import com.ztlsir.locker.Locker;
 
 public class LockerCreatorFixture {
     public static Locker createAvailableLocker() {

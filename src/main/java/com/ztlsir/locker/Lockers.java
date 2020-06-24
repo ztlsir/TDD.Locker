@@ -1,7 +1,7 @@
-package com.ztlsir;
+package com.ztlsir.locker;
 
-import com.ztlsir.exception.IllegalTicketException;
-import com.ztlsir.exception.LockerFullException;
+import com.ztlsir.locker.exception.IllegalTicketException;
+import com.ztlsir.locker.exception.LockerFullException;
 
 import java.util.Comparator;
 import java.util.List;

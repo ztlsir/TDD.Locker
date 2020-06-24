@@ -1,10 +1,10 @@
-package com.ztlsir.fixture;
+package com.ztlsir.locker.fixture;
 
-import com.ztlsir.Locker;
-import com.ztlsir.Pack;
-import com.ztlsir.Ticket;
-import com.ztlsir.exception.IllegalTicketException;
-import com.ztlsir.exception.LockerFullException;
+import com.ztlsir.locker.Locker;
+import com.ztlsir.locker.Pack;
+import com.ztlsir.locker.Ticket;
+import com.ztlsir.locker.exception.IllegalTicketException;
+import com.ztlsir.locker.exception.LockerFullException;
 import org.junit.jupiter.api.function.Executable;
 
 import static org.junit.jupiter.api.Assertions.*;

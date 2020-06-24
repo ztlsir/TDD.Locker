@@ -1,13 +1,13 @@
-package com.ztlsir;
+package com.ztlsir.locker;
 
+import com.ztlsir.locker.fixture.LockerAssertFixture;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ztlsir.fixture.LockerAssertFixture.assertTicketAndPackSavedLocker;
-import static com.ztlsir.fixture.LockerRobotAssertFixture.assertThrowIllegalTicketExceptionWhileTakePackage;
-import static com.ztlsir.fixture.LockerRobotAssertFixture.assertThrowLockerFullExceptionWhileSavePackage;
+import static com.ztlsir.locker.fixture.LockerRobotAssertFixture.assertThrowIllegalTicketExceptionWhileTakePackage;
+import static com.ztlsir.locker.fixture.LockerRobotAssertFixture.assertThrowLockerFullExceptionWhileSavePackage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -34,7 +34,7 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
+        LockerAssertFixture.assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
+        LockerAssertFixture.assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketAndPackSavedLocker(secondLocker, preSavePack, ticket);
+        LockerAssertFixture.assertTicketAndPackSavedLocker(secondLocker, preSavePack, ticket);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketAndPackSavedLocker(secondLocker, preSavePack, ticket);
+        LockerAssertFixture.assertTicketAndPackSavedLocker(secondLocker, preSavePack, ticket);
     }
 
     @Test
@@ -78,7 +78,7 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
+        LockerAssertFixture.assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
     }
 
     @Test
@@ -153,7 +153,7 @@ public class SmartLockerRobotTest {
         Pack preSavePack = new Pack();
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
+        LockerAssertFixture.assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
     }
 
     @Test
@@ -165,6 +165,6 @@ public class SmartLockerRobotTest {
 
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
-        assertTicketAndPackSavedLocker(secondLocker, preSavePack, ticket);
+        LockerAssertFixture.assertTicketAndPackSavedLocker(secondLocker, preSavePack, ticket);
     }
 }
