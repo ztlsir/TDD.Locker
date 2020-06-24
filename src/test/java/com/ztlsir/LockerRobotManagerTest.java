@@ -213,10 +213,7 @@ public class LockerRobotManagerTest {
                 createFullLockers());
         Pack preSavePack = new Pack();
 
-        LockerFullException exception = assertThrows(
-                LockerFullException.class,
-                () -> manager.savePackage(preSavePack));
-        assertEquals(lockerFullErrorMessage, exception.getMessage());
+        assertThrowLockerFullException(() -> manager.savePackage(preSavePack));
     }
 
     private static void verifySaveToFisrtOfLockers(List<Locker> lockers, LockerRobotManager manager) {

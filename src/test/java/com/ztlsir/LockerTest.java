@@ -31,10 +31,7 @@ public class LockerTest {
     public void should_throw_locker_full_exception_when_save_package_given_locker_is_full() {
         Locker locker = createFullLocker();
 
-        LockerFullException exception = assertThrows(
-                LockerFullException.class,
-                () -> locker.savePackage(new Pack()));
-        assertEquals(lockerFullErrorMessage, exception.getMessage());
+        assertThrowLockerFullException(() -> locker.savePackage(new Pack()));
     }
 
     @Test
