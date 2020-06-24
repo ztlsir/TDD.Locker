@@ -40,6 +40,10 @@ public class LockerRobotManager {
     }
 
     public Pack takePackage(Ticket ticket) {
-        return lockerRobots.get(0).takePackage(ticket);
+        return lockerRobots.stream()
+                .filter(lockerRobot->lockerRobot.isSaved(ticket))
+                .findAny()
+                .get()
+                .takePackage(ticket);
     }
 }

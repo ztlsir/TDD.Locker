@@ -65,7 +65,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * When 取包
  * Then 取包成功
  * <p>
- * todo Given LockerRobotManager管理着2个有容量的机器人和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot，一张包存在第2个机器人的有效票
+ * done Given LockerRobotManager管理着2个有容量的机器人和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot，一张包存在第2个机器人的有效票
  * When 取包
  * Then 取包成功
  * <p>
@@ -244,6 +244,22 @@ public class LockerRobotManagerTest {
                 createAvailableLockers(2));
         Pack preSavePack = new Pack();
         Ticket ticket = manager.savePackage(preSavePack);
+
+        Pack pack = manager.takePackage(new Ticket(ticket.getSerialNo()));
+
+        assertEquals(preSavePack, pack);
+    }
+
+    @Test
+    public void should_take_package_by_ticket_when_take_package_given_locker_robot_manager_manage_two_available_robot_and_two_available_locker_and_one_valid_ticket_from_2nd_robot_that_locker_robot_is_primary_and_smart() {
+        List<Locker> lockers = createAvailableLockers(1);
+        LockerRobotManager manager = new LockerRobotManager(
+                Arrays.asList(
+                        new PrimaryLockerRobot(createAvailableLockers(1)),
+                        new SmartLockerRobot(lockers)),
+                createAvailableLockers(2));
+        Pack preSavePack = new Pack();
+        Ticket ticket = lockers.get(0).savePackage(preSavePack);
 
         Pack pack = manager.takePackage(new Ticket(ticket.getSerialNo()));
 

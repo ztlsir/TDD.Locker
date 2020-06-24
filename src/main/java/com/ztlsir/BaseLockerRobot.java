@@ -22,4 +22,9 @@ public abstract class BaseLockerRobot {
 
         throw new IllegalTicketException();
     }
+
+    public boolean isSaved(Ticket ticket) {
+        return this.lockers.stream()
+                .anyMatch(locker -> locker.isSaved(ticket));
+    }
 }
