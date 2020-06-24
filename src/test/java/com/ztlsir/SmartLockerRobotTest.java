@@ -1,14 +1,12 @@
 package com.ztlsir;
 
-import com.ztlsir.exception.IllegalTicketException;
-import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static com.ztlsir.fixture.LockerAssertFixture.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜余量为5，第2个储物柜余量为5 When 存包 Then 获得一张有效票据，包存到第1个储物柜
@@ -114,11 +112,7 @@ public class SmartLockerRobotTest {
     public void should_throw_ilLegal_ticket_exception_when_take_package_by_smart_locker_robot_given_smart_and_primary_locker_robot_manage_two_lockers_and_a_fake_ticket() {
         SmartLockerRobot smartLockerRobot = new SmartLockerRobot(Arrays.asList(new Locker(5), new Locker(5)));
 
-        IllegalTicketException exception = assertThrows(
-                IllegalTicketException.class,
-                () -> smartLockerRobot.takePackage(new Ticket("fake_ticket")));
-
-        assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
+        assertThrowIllegalTicketException(smartLockerRobot, "fake_ticket");
     }
 
     @Test

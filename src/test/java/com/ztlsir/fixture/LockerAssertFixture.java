@@ -3,6 +3,7 @@ package com.ztlsir.fixture;
 import com.ztlsir.BaseLockerRobot;
 import com.ztlsir.Pack;
 import com.ztlsir.Ticket;
+import com.ztlsir.exception.IllegalTicketException;
 import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.function.Executable;
 
@@ -22,10 +23,25 @@ public class LockerAssertFixture {
         assertThrowLockerFullException(() -> lockerRobot.savePackage(preSavePack));
     }
 
+    public static void assertThrowIllegalTicketException(BaseLockerRobot lockerRobot, String ticketSerialNo) {
+        assertThrowIllegalTicketException(() -> lockerRobot.takePackage(new Ticket(ticketSerialNo)));
+    }
+
     public static void assertThrowLockerFullException(Executable executable) {
-        LockerFullException exception = assertThrows(
-                LockerFullException.class,
+        assertThrowException(LockerFullException.class, executable, lockerFullErrorMessage);
+    }
+
+    public static void assertThrowIllegalTicketException(Executable executable) {
+        assertThrowException(IllegalTicketException.class, executable, ilLegalTicketErrorMessage);
+    }
+
+    private static <T extends Throwable> void assertThrowException(
+            Class<T> expectedType,
+            Executable executable,
+            String expectedErrorMessage) {
+        T exception = assertThrows(
+                expectedType,
                 executable);
-        assertEquals(lockerFullErrorMessage, exception.getMessage());
+        assertEquals(expectedErrorMessage, exception.getMessage());
     }
 }

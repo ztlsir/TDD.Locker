@@ -1,11 +1,11 @@
 package com.ztlsir;
 
 import com.ztlsir.exception.IllegalTicketException;
-import com.ztlsir.exception.LockerFullException;
 import org.junit.jupiter.api.Test;
 
 import static com.ztlsir.fixture.LockerAssertFixture.*;
-import static com.ztlsir.fixture.LockerCreatorFixture.*;
+import static com.ztlsir.fixture.LockerCreatorFixture.createAvailableLocker;
+import static com.ztlsir.fixture.LockerCreatorFixture.createFullLocker;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
@@ -49,10 +49,8 @@ public class LockerTest {
     public void should_throw_ilLegal_ticket_exception_when_take_package_given_fake_ticket() {
         Locker locker = createAvailableLocker();
 
-        IllegalTicketException exception = assertThrows(
-                IllegalTicketException.class,
-                () -> locker.takePackage(new Ticket("fake_ticket")));
-        assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
+        assertThrowIllegalTicketException(() -> locker.takePackage(new Ticket("fake_ticket")));
+
     }
 
     @Test
@@ -61,10 +59,7 @@ public class LockerTest {
         Ticket ticket = locker.savePackage(new Pack());
         locker.takePackage(new Ticket(ticket.getSerialNo()));
 
-        Exception exception = assertThrows(
-                IllegalTicketException.class,
-                () -> locker.takePackage(new Ticket(ticket.getSerialNo())));
-        assertEquals(ilLegalTicketErrorMessage, exception.getMessage());
+        assertThrowIllegalTicketException(() -> locker.takePackage(new Ticket(ticket.getSerialNo())));
     }
 
     @Test
