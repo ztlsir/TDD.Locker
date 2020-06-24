@@ -52,7 +52,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * When 存包
  * Then 存包失败，提示储物柜已满
  * <p>
- * todo Given LockerRobotManager管理着2个没有容量的机器人
+ * done Given LockerRobotManager管理着2个没有容量的机器人
  * When 存包
  * Then 存包失败，提示储物柜已满
  * <p>
@@ -210,6 +210,17 @@ public class LockerRobotManagerTest {
                         new SmartLockerRobot(createFullLockers()),
                         new PrimaryLockerRobot(createFullLockers())),
                 createFullLockers());
+        Pack preSavePack = new Pack();
+
+        assertThrowLockerFullException(() -> manager.savePackage(preSavePack));
+    }
+
+    @Test
+    public void should_throw_locker_full_exception_when_save_package_given_locker_robot_manager_manage_two_full_robot() {
+        LockerRobotManager manager = new LockerRobotManager(
+                Arrays.asList(
+                        new SmartLockerRobot(createFullLockers()),
+                        new PrimaryLockerRobot(createFullLockers())));
         Pack preSavePack = new Pack();
 
         assertThrowLockerFullException(() -> manager.savePackage(preSavePack));
