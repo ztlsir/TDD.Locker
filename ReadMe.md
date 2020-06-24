@@ -76,6 +76,10 @@ Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储�
 When 先存包,再通过SmartLockerRoot取包
 Then 第1个储物柜有余量，第2个储物柜存满
 
+Given SmartLockerRoot管理着0个储物柜
+When 存包
+Then 存包失败，提示储物柜已满
+
 ## Locker Robot Manager Tasking
 Given LockerRobotManager管理着2个有容量的机器人、和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot
 When 存包

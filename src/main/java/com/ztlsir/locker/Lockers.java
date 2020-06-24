@@ -5,6 +5,7 @@ import com.ztlsir.locker.exception.LockerFullException;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class Lockers {
     private final List<Locker> lockers;
@@ -32,7 +33,7 @@ public class Lockers {
     public Ticket saveToMaxRemainingCapacityLocker(Pack pack) {
         return lockers.stream()
                 .max(Comparator.comparing(Locker::getRemainingCapacity))
-                .get()
+                .orElseThrow(LockerFullException::new)
                 .savePackage(pack);
     }
 

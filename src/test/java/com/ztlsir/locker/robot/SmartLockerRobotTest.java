@@ -6,6 +6,7 @@ import com.ztlsir.locker.Ticket;
 import com.ztlsir.locker.fixture.LockerAssertFixture;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜容量为1，余量为0，第2个储物柜余量为0 When 存包 Then 存包失败，提示储物柜已满
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜余量为0，第2个储物柜余量为0，一张包存在第一个储物柜的票据 When 取包，再存包 Then 获得一张有效票据，包存到第1个储物柜
  * Given SmartLockerRoot和PrimaryLockerRoot共同管理2个储物柜，第1个储物柜容量为2,余量为1，第2个储物柜容量为2 When 存包 Then 获得一张有效票据，包存到第2个储物柜
+ * Given SmartLockerRoot管理着0个储物柜 When 存包 Then 存包失败，提示储物柜已满
  */
 public class SmartLockerRobotTest {
     @Test
@@ -169,5 +171,12 @@ public class SmartLockerRobotTest {
         Ticket ticket = smartLockerRobot.savePackage(preSavePack);
 
         LockerAssertFixture.assertTicketAndPackSavedLocker(secondLocker, preSavePack, ticket);
+    }
+
+    @Test
+    public void should_throw_locker_full_exception_when_save_package_given_smart_locker_robot_manage_0_lockers() {
+        SmartLockerRobot smartLockerRobot = new SmartLockerRobot(new ArrayList<>());
+
+        assertThrowLockerFullExceptionWhileSavePackage(smartLockerRobot,new Pack());
     }
 }
