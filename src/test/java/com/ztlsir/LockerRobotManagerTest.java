@@ -10,6 +10,7 @@ import static com.ztlsir.fixture.LockerAssertFixture.assertThrowLockerFullExcept
 import static com.ztlsir.fixture.LockerAssertFixture.assertTicketAndPackSavedLocker;
 import static com.ztlsir.fixture.LockerCreatorFixture.createAvailableLocker;
 import static com.ztlsir.fixture.LockerCreatorFixture.createFullLocker;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * done Given LockerRobotManager管理着2个有容量的机器人、和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot
@@ -60,7 +61,7 @@ import static com.ztlsir.fixture.LockerCreatorFixture.createFullLocker;
  * When 存包
  * Then 存包失败，提示储物柜已满
  * <p>
- * todo Given LockerRobotManager管理着2个有容量的机器人和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot，一张包存在第1个机器人的有效票
+ * done Given LockerRobotManager管理着2个有容量的机器人和2个有容量的locker，第1个机器人为PrimaryLockerRobot，第2个机器人为SmartLockerRobot，一张包存在第1个机器人的有效票
  * When 取包
  * Then 取包成功
  * <p>
@@ -232,6 +233,21 @@ public class LockerRobotManagerTest {
         Pack preSavePack = new Pack();
 
         assertThrowLockerFullExceptionWhileSavePackage(manager, preSavePack);
+    }
+
+    @Test
+    public void should_take_package_by_ticket_when_take_package_given_locker_robot_manager_manage_two_available_robot_and_two_available_locker_and_one_valid_ticket_from_1st_robot_that_locker_robot_is_primary_and_smart() {
+        LockerRobotManager manager = new LockerRobotManager(
+                Arrays.asList(
+                        new PrimaryLockerRobot(createAvailableLockers(1)),
+                        new SmartLockerRobot(createAvailableLockers(1))),
+                createAvailableLockers(2));
+        Pack preSavePack = new Pack();
+        Ticket ticket = manager.savePackage(preSavePack);
+
+        Pack pack = manager.takePackage(new Ticket(ticket.getSerialNo()));
+
+        assertEquals(preSavePack, pack);
     }
 
     private static void assertThrowLockerFullExceptionWhileSavePackage(LockerRobotManager manager, Pack preSavePack) {

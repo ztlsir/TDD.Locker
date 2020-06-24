@@ -38,4 +38,8 @@ public class LockerRobotManager {
                 .orElseThrow(() -> new LockerFullException())
                 .savePackage(pack);
     }
+
+    public Pack takePackage(Ticket ticket) {
+        return lockerRobots.get(0).takePackage(ticket);
+    }
 }
