@@ -11,12 +11,10 @@ public class PrimaryLockerRobot extends ManageLockersRobot {
 
     @Override
     public Ticket savePackage(Pack pack) {
-        for (Locker locker : this.lockers) {
-            if (locker.isNotFull()) {
-                return locker.savePackage(pack);
-            }
-        }
-
-        throw new LockerFullException();
+        return this.lockers.stream()
+                .filter(Locker::isNotFull)
+                .findFirst()
+                .orElseThrow(LockerFullException::new)
+                .savePackage(pack);
     }
 }
