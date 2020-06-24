@@ -24,7 +24,7 @@ public class LockerRobotManager {
     }
 
     public Ticket savePackage(Pack pack) {
-        Optional<BaseLockerRobot> optionalBaseLockerRobot = lockerRobots.stream()
+        Optional<BaseLockerRobot> optionalBaseLockerRobot = this.lockerRobots.stream()
                 .filter(lockerRobot -> lockerRobot.lockers.stream().anyMatch(locker -> locker.isNotFull()))
                 .findFirst();
 
@@ -32,7 +32,7 @@ public class LockerRobotManager {
             return optionalBaseLockerRobot.get().savePackage(pack);
         }
 
-        return lockers.stream()
+        return this.lockers.stream()
                 .filter(locker -> locker.isNotFull())
                 .findFirst()
                 .orElseThrow(() -> new LockerFullException())
@@ -40,10 +40,19 @@ public class LockerRobotManager {
     }
 
     public Pack takePackage(Ticket ticket) {
-        return lockerRobots.stream()
-                .filter(lockerRobot->lockerRobot.isSaved(ticket))
+        Optional<BaseLockerRobot> optionalBaseLockerRobot = this.lockerRobots.stream()
+                .filter(lockerRobot -> lockerRobot.isSaved(ticket))
+                .findAny();
+
+        if (optionalBaseLockerRobot.isPresent()) {
+            return optionalBaseLockerRobot.get().takePackage(ticket);
+        }
+
+        return this.lockers.stream()
+                .filter(locker -> locker.isSaved(ticket))
                 .findAny()
                 .get()
                 .takePackage(ticket);
+
     }
 }
