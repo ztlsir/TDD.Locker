@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * When 存包
  * Then 获得一张有效票据，包存到PrimaryLockerRobot管理的locker
  * <p>
- * todo Given LockerRobotManager管理着2个没有容量的机器人和2个有容量的locker
+ * done Given LockerRobotManager管理着2个没有容量的机器人和2个有容量的locker
  * When 存包
  * Then 获得一张有效票据，包存到第1个locker
  * <p>
@@ -111,13 +111,8 @@ public class LockerRobotManagerTest {
                         new PrimaryLockerRobot(primaryAvailableLockers),
                         new SmartLockerRobot(createAvailableLockers(1))),
                 createAvailableLockers(2));
-        Pack preSavePack = new Pack();
 
-        Ticket ticket = manager.savePackage(preSavePack);
-
-        assertTicketNotEmpty(ticket);
-        Pack pack = primaryAvailableLockers.get(0).takePackage(new Ticket(ticket.getSerialNo()));
-        assertEquals(preSavePack, pack);
+        verifySaveToFisrtLocker(primaryAvailableLockers, manager);
     }
 
     @Test
@@ -128,13 +123,8 @@ public class LockerRobotManagerTest {
                         new SmartLockerRobot(smartAvailableLockers),
                         new PrimaryLockerRobot(createAvailableLockers(1))),
                 createAvailableLockers(2));
-        Pack preSavePack = new Pack();
 
-        Ticket ticket = manager.savePackage(preSavePack);
-
-        assertTicketNotEmpty(ticket);
-        Pack pack = smartAvailableLockers.get(0).takePackage(new Ticket(ticket.getSerialNo()));
-        assertEquals(preSavePack, pack);
+        verifySaveToFisrtLocker(smartAvailableLockers, manager);
     }
 
     @Test
@@ -142,15 +132,36 @@ public class LockerRobotManagerTest {
         List<Locker> primaryAvailableLockers = createAvailableLockers(1);
         LockerRobotManager manager = new LockerRobotManager(
                 Arrays.asList(
-                        new SmartLockerRobot(Arrays.asList(createFullLocker())),
+                        new SmartLockerRobot(createFullLockers()),
                         new PrimaryLockerRobot(primaryAvailableLockers)),
                 createAvailableLockers(2));
+
+        verifySaveToFisrtLocker(primaryAvailableLockers, manager);
+    }
+
+    @Test
+    public void should_return_ticket_and_save_to_1st_locker_when_save_package_given_locker_robot_manager_manage_two_full_robot_and_two_available_locker() {
+        List<Locker> lockers = createAvailableLockers(2);
+        LockerRobotManager manager = new LockerRobotManager(
+                Arrays.asList(
+                        new SmartLockerRobot(createFullLockers()),
+                        new PrimaryLockerRobot(createFullLockers())),
+                lockers);
+
+        verifySaveToFisrtLocker(lockers, manager);
+    }
+
+    private void verifySaveToFisrtLocker(List<Locker> lockers, LockerRobotManager manager) {
         Pack preSavePack = new Pack();
 
         Ticket ticket = manager.savePackage(preSavePack);
 
         assertTicketNotEmpty(ticket);
-        Pack pack = primaryAvailableLockers.get(0).takePackage(new Ticket(ticket.getSerialNo()));
+        assertSaveToFisrtLocker(lockers, preSavePack, ticket);
+    }
+
+    private static void assertSaveToFisrtLocker(List<Locker> lockers, Pack preSavePack, Ticket ticket) {
+        Pack pack = lockers.get(0).takePackage(new Ticket(ticket.getSerialNo()));
         assertEquals(preSavePack, pack);
     }
 
@@ -161,5 +172,9 @@ public class LockerRobotManagerTest {
         }
 
         return lockers;
+    }
+
+    private static List<Locker> createFullLockers() {
+        return Arrays.asList(createFullLocker());
     }
 }
