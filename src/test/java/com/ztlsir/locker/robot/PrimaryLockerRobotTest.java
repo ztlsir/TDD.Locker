@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.ztlsir.locker.fixture.LockerCreatorFixture.createAvailableLocker;
-import static com.ztlsir.locker.fixture.LockerCreatorFixture.createFullLocker;
+import static com.ztlsir.locker.fixture.LockerCreatorFixture.*;
 import static com.ztlsir.locker.fixture.LockerRobotAssertFixture.assertThrowIllegalTicketExceptionWhileTakePackage;
 import static com.ztlsir.locker.fixture.LockerRobotAssertFixture.assertThrowLockerFullExceptionWhileSavePackage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,6 +30,17 @@ public class PrimaryLockerRobotTest {
     public void should_save_in_1st_locker_and_return_ticket_when_save_package_given_robot_manage_two_lockers_and_both_is_not_full() {
         Locker firstLocker = createAvailableLocker();
         PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(firstLocker, createAvailableLocker()));
+        Pack preSavePack = new Pack();
+
+        Ticket ticket = primaryLockerRobot.savePackage(preSavePack);
+
+        LockerAssertFixture.assertTicketAndPackSavedLocker(firstLocker, preSavePack, ticket);
+    }
+
+    @Test
+    public void should_save_in_1st_locker_and_return_ticket_when_save_package_given_robot_manage_two_lockers_and_even_1st_locker_less_than_2nd_locker() {
+        Locker firstLocker = createLocker(4);
+        PrimaryLockerRobot primaryLockerRobot = new PrimaryLockerRobot(Arrays.asList(firstLocker, createLocker(5)));
         Pack preSavePack = new Pack();
 
         Ticket ticket = primaryLockerRobot.savePackage(preSavePack);

@@ -7,6 +7,10 @@ public class LockerCreatorFixture {
         return new Locker(10);
     }
 
+    public static Locker createLocker(int capacity) {
+        return new Locker(capacity);
+    }
+
     public static Locker createFullLocker() {
         return new Locker(0);
     }
