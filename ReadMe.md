@@ -200,7 +200,7 @@ When 获取报表
 Then 获得报表：
 M 3 14
   L 2 6
-    L 1 8
+  L 1 8
 
 Given Director管理1个manager，manager管理1个PrimaryLockerRobot，PrimaryLockerRobot管理了2个Locker，余量分别为：3和2，容量分别为：9和10
 When 获取报表
