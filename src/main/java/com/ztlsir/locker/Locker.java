@@ -61,6 +61,6 @@ public class Locker {
     }
 
     public Report getReport() {
-        return new Report("L",this.getRemainCapacity(),this.getCapacity());
+        return new Report(ReportType.L,this.getRemainCapacity(),this.getCapacity());
     }
 }

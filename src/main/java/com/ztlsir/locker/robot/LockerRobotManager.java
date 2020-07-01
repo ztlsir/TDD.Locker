@@ -1,9 +1,6 @@
 package com.ztlsir.locker.robot;
 
-import com.ztlsir.locker.Locker;
-import com.ztlsir.locker.Pack;
-import com.ztlsir.locker.Report;
-import com.ztlsir.locker.Ticket;
+import com.ztlsir.locker.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +51,7 @@ public class LockerRobotManager extends BaseLockerRobot {
     public Report getReport() {
         List<Report> lockersReport = this.lockers.getItemLockerReports();
         return new Report(
-                "M",
+                ReportType.M,
                 lockersReport.stream().mapToInt(Report::getRemain).sum(),
                 lockersReport.stream().mapToInt(Report::getCapacity).sum(),
                 lockersReport);
