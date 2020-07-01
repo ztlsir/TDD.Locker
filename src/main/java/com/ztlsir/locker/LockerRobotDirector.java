@@ -4,10 +4,16 @@ import com.ztlsir.locker.robot.LockerRobotManager;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LockerRobotDirector {
+    private static final String REPORT_FORMAT_STRING = "{0}{1} {2} {3}";
+    private static final int INDENT_INCREASE_SIZE = 1;
+    private static final String LINE_BREAK = "\r\n";
+    private static final String SINGLE_INDENT_STR = "  ";
+    private static final int INIT_INDENT_COUNT = 0;
+
     private final LockerRobotManager lockerRobotManager;
 
     public LockerRobotDirector(LockerRobotManager manager) {
@@ -15,34 +21,37 @@ public class LockerRobotDirector {
     }
 
     public void printReport() {
-        Report managerReport = lockerRobotManager.getReport();
         List<String> strReports = new ArrayList<>();
-        strReports.add(getFormatReportStr(managerReport, 0));
-        strReports.addAll(managerReport
-                .getItemReports()
-                .stream()
-                .map(report -> getFormatReportStr(report, 1))
-                .collect(Collectors.toList()));
-        String report = String.join("\r\n", strReports);
+        AppendReportsToStrReports(strReports, Collections.singletonList(lockerRobotManager.getReport()), INIT_INDENT_COUNT);
 
+        String report = String.join(LINE_BREAK, strReports);
         System.out.print(report);
+    }
+
+    private void AppendReportsToStrReports(List<String> strReports, List<Report> reports, int indentCount) {
+        reports.forEach(report -> {
+            strReports.add(getFormatReportStr(report, indentCount));
+            if (report.getType() != ReportType.L) {
+                AppendReportsToStrReports(strReports, report.getItemReports(), indentCount + INDENT_INCREASE_SIZE);
+            }
+        });
     }
 
     private String getFormatReportStr(Report manageReport, int indentCount) {
         return MessageFormat.format(
-                "{3}{0} {1} {2}",
+                REPORT_FORMAT_STRING,
+                this.getIndentStr(indentCount),
                 manageReport.getType(),
                 manageReport.getRemain(),
-                manageReport.getCapacity(),
-                this.getIndent(indentCount));
+                manageReport.getCapacity());
     }
 
-    private String getIndent(int count) {
-        String indent = "";
+    private String getIndentStr(int count) {
+        StringBuilder indent = new StringBuilder();
         for (int i = 0; i < count; i++) {
-            indent += "  ";
+            indent.append(SINGLE_INDENT_STR);
         }
 
-        return indent;
+        return indent.toString();
     }
 }

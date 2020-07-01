@@ -45,7 +45,7 @@ public class Lockers {
         return this.lockers.stream().anyMatch(Locker::isNotFull);
     }
 
-    public List<Report> getItemLockerReports() {
+    public List<Report> getReports() {
         return this.lockers.stream()
                 .map(locker -> locker.getReport())
                 .collect(Collectors.toList());

@@ -1,9 +1,13 @@
 package com.ztlsir.locker.robot;
 
 import com.ztlsir.locker.Locker;
+import com.ztlsir.locker.Report;
+import com.ztlsir.locker.ReportType;
 import com.ztlsir.locker.Ticket;
 
 import java.util.List;
+
+import static com.ztlsir.locker.Report.getReportsElementSum;
 
 public abstract class ManageLockersRobot extends BaseLockerRobot {
 
@@ -17,5 +21,15 @@ public abstract class ManageLockersRobot extends BaseLockerRobot {
 
     boolean isNotFull() {
         return this.lockers.isNotFull();
+    }
+
+    public Report getReport() {
+        List<Report> reports = this.lockers.getReports();
+
+        return new Report(
+                ReportType.R,
+                getReportsElementSum(reports, Report::getRemain),
+                getReportsElementSum(reports, Report::getCapacity),
+                reports);
     }
 }

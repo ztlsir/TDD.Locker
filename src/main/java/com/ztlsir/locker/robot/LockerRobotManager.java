@@ -5,6 +5,9 @@ import com.ztlsir.locker.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.ztlsir.locker.Report.getReportsElementSum;
 
 public class LockerRobotManager extends BaseLockerRobot {
     private final List<ManageLockersRobot> manageLockersRobots;
@@ -49,11 +52,15 @@ public class LockerRobotManager extends BaseLockerRobot {
     }
 
     public Report getReport() {
-        List<Report> lockersReport = this.lockers.getItemLockerReports();
+        List<Report> reports = this.lockers.getReports();
+        reports.addAll(this.manageLockersRobots.stream()
+                .map(ManageLockersRobot::getReport)
+                .collect(Collectors.toList()));
+
         return new Report(
                 ReportType.M,
-                lockersReport.stream().mapToInt(Report::getRemain).sum(),
-                lockersReport.stream().mapToInt(Report::getCapacity).sum(),
-                lockersReport);
+                getReportsElementSum(reports, Report::getRemain),
+                getReportsElementSum(reports, Report::getCapacity),
+                reports);
     }
 }

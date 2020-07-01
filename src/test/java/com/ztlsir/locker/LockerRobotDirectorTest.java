@@ -1,6 +1,7 @@
 package com.ztlsir.locker;
 
 import com.ztlsir.locker.robot.LockerRobotManager;
+import com.ztlsir.locker.robot.PrimaryLockerRobot;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *   L 2 6
  *   L 1 8
  *
- *todo Given Director管理1个manager，manager管理1个PrimaryLockerRobot，PrimaryLockerRobot管理了2个Locker，余量分别为：3和2，容量分别为：9和10
+ *done Given Director管理1个manager，manager管理1个PrimaryLockerRobot，PrimaryLockerRobot管理了2个Locker，余量分别为：3和2，容量分别为：9和10
  * When 获取报表
  * Then 获得报表：
  * M 5 19
@@ -87,7 +88,7 @@ public class LockerRobotDirectorTest {
     }
 
     @Test
-    public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_one_locker_with_capacity_is_4_and_margin_is_2() {
+    public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_one_locker_with_remain_is_2_and_capacity_is_4() {
         LockerRobotManager manager = LockerRobotManager.create(Arrays.asList(createLocker(4, 2)));
         LockerRobotDirector director = new LockerRobotDirector(manager);
 
@@ -97,7 +98,7 @@ public class LockerRobotDirectorTest {
     }
 
     @Test
-    public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_two_locker_with_capacity_is_6_8_and_margin_is_2_1() {
+    public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_two_locker_with_remain_is_2_1_and_capacity_is_6_8() {
         LockerRobotManager manager = LockerRobotManager
                 .create(Arrays.asList(
                         createLocker(6, 2),
@@ -109,9 +110,23 @@ public class LockerRobotDirectorTest {
         assertEquals("M 3 14\r\n  L 2 6\r\n  L 1 8", outContent.toString());
     }
 
-    private Locker createLocker(int capacity, int margin) {
+    @Test
+    public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_one_primary_that_manage_two_locker_with_remain_is_3_2_and_capacity_is_9_10() {
+        LockerRobotManager manager = new LockerRobotManager(
+                Arrays.asList(new PrimaryLockerRobot(
+                        Arrays.asList(
+                                createLocker(9, 3),
+                                createLocker(10, 2)))));
+        LockerRobotDirector director = new LockerRobotDirector(manager);
+
+        director.printReport();
+
+        assertEquals("M 5 19\r\n  R 5 19\r\n    L 3 9\r\n    L 2 10", outContent.toString());
+    }
+
+    private Locker createLocker(int capacity, int remain) {
         Locker locker = new Locker(capacity);
-        for (int i = 0; i < capacity - margin; i++) {
+        for (int i = 0; i < capacity - remain; i++) {
             locker.savePackage(new Pack());
         }
 

@@ -1,6 +1,8 @@
 package com.ztlsir.locker;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ToIntFunction;
 
 public class Report {
     private ReportType type;
@@ -12,6 +14,7 @@ public class Report {
         this.type = type;
         this.remain = remain;
         this.capacity = capacity;
+        this.itemReports = new ArrayList<>();
     }
 
     public Report(ReportType type, int remain, int capacity, List<Report> itemReports) {
@@ -35,5 +38,9 @@ public class Report {
 
     public List<Report> getItemReports() {
         return this.itemReports;
+    }
+
+    public static int getReportsElementSum(List<Report> reports, ToIntFunction<Report> mapper) {
+        return reports.stream().mapToInt(mapper).sum();
     }
 }
