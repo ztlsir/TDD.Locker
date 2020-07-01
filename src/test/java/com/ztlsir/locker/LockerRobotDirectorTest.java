@@ -68,7 +68,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *   R 1 12
  *     L 1 12
  *
- *todo Given Director管理1个manager，manager管理1个PrimaryLockerRobot和1个Locker，PrimaryLockerRobot管理了1个Locker，余量和容量分别为：4和12，Locker余量和容量分别为：1和9；Director未管理1个PrimaryLockerRobot，该PrimaryLockerRobot管理了1个Locker，余量和容量分别为：2和18
+ *done Given Director管理1个manager，manager管理1个PrimaryLockerRobot和1个Locker，PrimaryLockerRobot管理了1个Locker，余量和容量分别为：4和12，Locker余量和容量分别为：1和9；Director未管理1个PrimaryLockerRobot，该PrimaryLockerRobot管理了1个Locker，余量和容量分别为：2和18
  * When 获取报表
  * Then 获得报表：
  * M 5 21
@@ -178,6 +178,22 @@ public class LockerRobotDirectorTest {
 
         assertEquals(
                 "M 9 21\r\n  L 7 15\r\n  R 2 6\r\n    L 2 6\r\nM 3 21\r\n  L 2 9\r\n  R 1 12\r\n    L 1 12",
+                outContent.toString());
+    }
+
+    @Test
+    public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_one_primary_and_one_locker_that_locker_remain_and_capacity_is_1_9_and_primary_manage_one_locker_with_remain_and_capacity_is_4_12_and_dirctor_did_not_manage_one_manager_that_manage_one_primary_that_manage_one_locker_with_remain_and_capacity_is_2_18() {
+        LockerRobotManager manager = new LockerRobotManager(
+                Collections.singletonList(new PrimaryLockerRobot(Collections.singletonList(createLocker(12, 4)))),
+                Collections.singletonList(createLocker(9, 1)));
+        new LockerRobotManager(
+                Collections.singletonList(new PrimaryLockerRobot(Collections.singletonList(createLocker(18, 2)))));
+        LockerRobotDirector director = new LockerRobotDirector(Collections.singletonList(manager));
+
+        director.printReport();
+
+        assertEquals(
+                "M 5 21\r\n  L 1 9\r\n  R 4 12\r\n    L 4 12",
                 outContent.toString());
     }
 
