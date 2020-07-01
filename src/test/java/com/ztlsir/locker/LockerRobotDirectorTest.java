@@ -47,7 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *     L 2 11
  *     L 5 12
  *
- *todo Given Director管理1个manager，manager管理1个PrimaryLockerRobot和1个Locker，PrimaryLockerRobot管理了1个Locker，余量和容量分别为：6和16，Locker余量和容量分别为：3和10
+ *done Given Director管理1个manager，manager管理1个PrimaryLockerRobot和1个Locker，PrimaryLockerRobot管理了1个Locker，余量和容量分别为：6和16，Locker余量和容量分别为：3和10
  * When 获取报表
  * Then 获得报表：
  * M 9 26
@@ -146,6 +146,20 @@ public class LockerRobotDirectorTest {
 
         assertEquals(
                 "M 16 57\r\n  R 9 34\r\n    L 1 13\r\n    L 4 10\r\n    L 4 11\r\n  R 7 23\r\n    L 2 11\r\n    L 5 12",
+                outContent.toString());
+    }
+
+    @Test
+    public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_one_primary_and_one_locker_that_locker_remain_and_capacity_is_3_10_and_primary_manage_one_locker_with_remain_and_capacity_is_6_16() {
+        LockerRobotManager manager = new LockerRobotManager(
+                Arrays.asList(new PrimaryLockerRobot(Arrays.asList(createLocker(16, 6)))),
+                Arrays.asList(createLocker(10, 3)));
+        LockerRobotDirector director = new LockerRobotDirector(manager);
+
+        director.printReport();
+
+        assertEquals(
+                "M 9 26\r\n  L 3 10\r\n  R 6 16\r\n    L 6 16",
                 outContent.toString());
     }
 
