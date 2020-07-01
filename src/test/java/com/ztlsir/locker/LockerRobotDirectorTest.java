@@ -2,6 +2,7 @@ package com.ztlsir.locker;
 
 import com.ztlsir.locker.robot.LockerRobotManager;
 import com.ztlsir.locker.robot.PrimaryLockerRobot;
+import com.ztlsir.locker.robot.SmartLockerRobot;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *     L 3 9
  *     L 2 10
  *
- *todo Given Director管理1个manager，manager管理1个PrimaryLockerRobot和1个SmartLockerRobot，PrimaryLockerRobot管理了3个Locker，余量分别为：1、4、4，容量分别为：13、10、11，SmartLockerRobot管理了1个Locker，余量分别为：2和5，容量分别为：11和12
+ *done Given Director管理1个manager，manager管理1个PrimaryLockerRobot和1个SmartLockerRobot，PrimaryLockerRobot管理了3个Locker，余量分别为：1、4、4，容量分别为：13、10、11，SmartLockerRobot管理了1个Locker，余量分别为：2和5，容量分别为：11和12
  * When 获取报表
  * Then 获得报表：
  * M 16 57
@@ -121,7 +122,31 @@ public class LockerRobotDirectorTest {
 
         director.printReport();
 
-        assertEquals("M 5 19\r\n  R 5 19\r\n    L 3 9\r\n    L 2 10", outContent.toString());
+        assertEquals(
+                "M 5 19\r\n  R 5 19\r\n    L 3 9\r\n    L 2 10",
+                outContent.toString());
+    }
+
+    @Test
+    public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_two_robot_that_1st_primary_manage_three_locker_with_remain_is_1_4_4_and_capacity_is_13_10_11_and_2nd_smart_manage_two_locker_with_remain_is_2_5_and_capacity_is_11_12() {
+        LockerRobotManager manager = new LockerRobotManager(
+                Arrays.asList(
+                        new PrimaryLockerRobot(
+                                Arrays.asList(
+                                        createLocker(13, 1),
+                                        createLocker(10, 4),
+                                        createLocker(11, 4))),
+                        new SmartLockerRobot(
+                                Arrays.asList(
+                                        createLocker(11, 2),
+                                        createLocker(12, 5)))));
+        LockerRobotDirector director = new LockerRobotDirector(manager);
+
+        director.printReport();
+
+        assertEquals(
+                "M 16 57\r\n  R 9 34\r\n    L 1 13\r\n    L 4 10\r\n    L 4 11\r\n  R 7 23\r\n    L 2 11\r\n    L 5 12",
+                outContent.toString());
     }
 
     private Locker createLocker(int capacity, int remain) {

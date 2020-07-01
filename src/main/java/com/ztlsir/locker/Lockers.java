@@ -47,7 +47,7 @@ public class Lockers {
 
     public List<Report> getReports() {
         return this.lockers.stream()
-                .map(locker -> locker.getReport())
+                .map(Locker::getReport)
                 .collect(Collectors.toList());
     }
 }
