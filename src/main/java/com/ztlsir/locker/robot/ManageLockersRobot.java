@@ -7,8 +7,6 @@ import com.ztlsir.locker.Ticket;
 
 import java.util.List;
 
-import static com.ztlsir.locker.Report.getReportsElementSum;
-
 public abstract class ManageLockersRobot extends BaseLockerRobot {
 
     ManageLockersRobot(List<Locker> lockers) {
@@ -26,10 +24,6 @@ public abstract class ManageLockersRobot extends BaseLockerRobot {
     public Report getReport() {
         List<Report> reports = this.lockers.getReports();
 
-        return new Report(
-                ReportType.R,
-                getReportsElementSum(reports, Report::getRemain),
-                getReportsElementSum(reports, Report::getCapacity),
-                reports);
+        return new Report(ReportType.R, reports);
     }
 }

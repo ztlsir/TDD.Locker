@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.function.ToIntFunction;
 
 public class Report {
-    private ReportType type;
-    private int remain;
-    private int capacity;
-    private List<Report> itemReports;
+    private final ReportType type;
+    private final int remain;
+    private final int capacity;
+    private final List<Report> itemReports;
 
     public Report(ReportType type, int remain, int capacity) {
         this.type = type;
@@ -17,11 +17,12 @@ public class Report {
         this.itemReports = new ArrayList<>();
     }
 
-    public Report(ReportType type, int remain, int capacity, List<Report> itemReports) {
+    public Report(ReportType type, List<Report> itemReports) {
         this.type = type;
-        this.remain = remain;
-        this.capacity = capacity;
         this.itemReports = itemReports;
+
+        this.remain = this.getElementSumByItemReports(Report::getRemain);
+        this.capacity = this.getElementSumByItemReports(Report::getCapacity);
     }
 
     public ReportType getType() {
@@ -40,7 +41,7 @@ public class Report {
         return this.itemReports;
     }
 
-    public static int getReportsElementSum(List<Report> reports, ToIntFunction<Report> mapper) {
-        return reports.stream().mapToInt(mapper).sum();
+    private int getElementSumByItemReports(ToIntFunction<Report> mapper) {
+        return this.getItemReports().stream().mapToInt(mapper).sum();
     }
 }
