@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LockerRobotDirector {
     private static final String REPORT_FORMAT_STRING = "{0}{1} {2} {3}";
@@ -14,15 +15,20 @@ public class LockerRobotDirector {
     private static final String SINGLE_INDENT_STR = "  ";
     private static final int INIT_INDENT_COUNT = 0;
 
-    private final LockerRobotManager lockerRobotManager;
+    private final List<LockerRobotManager> lockerRobotManagers;
 
-    public LockerRobotDirector(LockerRobotManager manager) {
-        this.lockerRobotManager = manager;
+    public LockerRobotDirector(List<LockerRobotManager> managers) {
+        this.lockerRobotManagers = managers;
     }
 
     public void printReport() {
         List<String> strReports = new ArrayList<>();
-        AppendReportsToStrReports(strReports, Collections.singletonList(lockerRobotManager.getReport()), INIT_INDENT_COUNT);
+        AppendReportsToStrReports(
+                strReports,
+                lockerRobotManagers.stream()
+                        .map(lockerRobotManager -> lockerRobotManager.getReport())
+                        .collect(Collectors.toList()),
+                INIT_INDENT_COUNT);
 
         String report = String.join(LINE_BREAK, strReports);
         System.out.print(report);

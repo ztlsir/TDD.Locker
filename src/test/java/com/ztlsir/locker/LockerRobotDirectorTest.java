@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -55,7 +56,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *   R 6 16
  *     L 6 16
  *
- *todo Given Director管理2个manager，manager1管理1个PrimaryLockerRobot和1个Locker，PrimaryLockerRobot管理了1个Locker，余量和容量分别为：2和6，Locker余量和容量分别为：7和15；manager2管理1个SmartLockerRobot和1个Locker，SmartLockerRobot管理了1个Locker，余量和容量分别为：1和12，Locker余量和容量分别为：2和9
+ *done Given Director管理2个manager，manager1管理1个PrimaryLockerRobot和1个Locker，PrimaryLockerRobot管理了1个Locker，余量和容量分别为：2和6，Locker余量和容量分别为：7和15；manager2管理1个SmartLockerRobot和1个Locker，SmartLockerRobot管理了1个Locker，余量和容量分别为：1和12，Locker余量和容量分别为：2和9
  * When 获取报表
  * Then 获得报表：
  * M 9 21
@@ -90,8 +91,8 @@ public class LockerRobotDirectorTest {
 
     @Test
     public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_one_locker_with_remain_is_2_and_capacity_is_4() {
-        LockerRobotManager manager = LockerRobotManager.create(Arrays.asList(createLocker(4, 2)));
-        LockerRobotDirector director = new LockerRobotDirector(manager);
+        LockerRobotManager manager = LockerRobotManager.create(Collections.singletonList(createLocker(4, 2)));
+        LockerRobotDirector director = new LockerRobotDirector(Collections.singletonList(manager));
 
         director.printReport();
 
@@ -104,7 +105,7 @@ public class LockerRobotDirectorTest {
                 .create(Arrays.asList(
                         createLocker(6, 2),
                         createLocker(8, 1)));
-        LockerRobotDirector director = new LockerRobotDirector(manager);
+        LockerRobotDirector director = new LockerRobotDirector(Collections.singletonList(manager));
 
         director.printReport();
 
@@ -114,11 +115,11 @@ public class LockerRobotDirectorTest {
     @Test
     public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_one_primary_that_manage_two_locker_with_remain_is_3_2_and_capacity_is_9_10() {
         LockerRobotManager manager = new LockerRobotManager(
-                Arrays.asList(new PrimaryLockerRobot(
+                Collections.singletonList(new PrimaryLockerRobot(
                         Arrays.asList(
                                 createLocker(9, 3),
                                 createLocker(10, 2)))));
-        LockerRobotDirector director = new LockerRobotDirector(manager);
+        LockerRobotDirector director = new LockerRobotDirector(Collections.singletonList(manager));
 
         director.printReport();
 
@@ -140,7 +141,7 @@ public class LockerRobotDirectorTest {
                                 Arrays.asList(
                                         createLocker(11, 2),
                                         createLocker(12, 5)))));
-        LockerRobotDirector director = new LockerRobotDirector(manager);
+        LockerRobotDirector director = new LockerRobotDirector(Collections.singletonList(manager));
 
         director.printReport();
 
@@ -152,14 +153,31 @@ public class LockerRobotDirectorTest {
     @Test
     public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_one_primary_and_one_locker_that_locker_remain_and_capacity_is_3_10_and_primary_manage_one_locker_with_remain_and_capacity_is_6_16() {
         LockerRobotManager manager = new LockerRobotManager(
-                Arrays.asList(new PrimaryLockerRobot(Arrays.asList(createLocker(16, 6)))),
-                Arrays.asList(createLocker(10, 3)));
-        LockerRobotDirector director = new LockerRobotDirector(manager);
+                Collections.singletonList(new PrimaryLockerRobot(Collections.singletonList(createLocker(16, 6)))),
+                Collections.singletonList(createLocker(10, 3)));
+        LockerRobotDirector director = new LockerRobotDirector(Collections.singletonList(manager));
 
         director.printReport();
 
         assertEquals(
                 "M 9 26\r\n  L 3 10\r\n  R 6 16\r\n    L 6 16",
+                outContent.toString());
+    }
+
+    @Test
+    public void should_print_report_when_query_report_given_dirctor_manage_two_manager_that_1st_manage_one_primary_and_one_locker_that_locker_remain_and_capacity_is_7_15_and_primary_manage_one_locker_with_remain_and_capacity_is_2_6_and_2nd_manage_one_smart_and_one_locker_that_locker_remain_and_capacity_is_2_9_and_primary_manage_one_locker_with_remain_and_capacity_is_1_12() {
+        LockerRobotManager firstManager = new LockerRobotManager(
+                Collections.singletonList(new PrimaryLockerRobot(Collections.singletonList(createLocker(6, 2)))),
+                Collections.singletonList(createLocker(15, 7)));
+        LockerRobotManager secondManager = new LockerRobotManager(
+                Collections.singletonList(new SmartLockerRobot(Collections.singletonList(createLocker(12, 1)))),
+                Collections.singletonList(createLocker(9, 2)));
+        LockerRobotDirector director = new LockerRobotDirector(Arrays.asList(firstManager,secondManager));
+
+        director.printReport();
+
+        assertEquals(
+                "M 9 21\r\n  L 7 15\r\n  R 2 6\r\n    L 2 6\r\nM 3 21\r\n  L 2 9\r\n  R 1 12\r\n    L 1 12",
                 outContent.toString());
     }
 
