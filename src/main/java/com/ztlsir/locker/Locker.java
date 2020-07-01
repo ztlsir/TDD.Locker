@@ -40,7 +40,7 @@ public class Locker {
         return this.packs.containsKey(ticket);
     }
 
-    int getRemainingCapacity() {
+    int getRemainCapacity() {
         return this.initCapacity - this.packs.size();
     }
 
@@ -49,10 +49,18 @@ public class Locker {
     }
 
     private boolean isFull() {
-        return this.getRemainingCapacity() <= 0;
+        return this.getRemainCapacity() <= 0;
     }
 
     private Ticket createTicket() {
         return new Ticket(UUID.randomUUID().toString());
+    }
+
+    public int getCapacity() {
+        return this.initCapacity;
+    }
+
+    public Report getReport() {
+        return new Report("L",this.getRemainCapacity(),this.getCapacity());
     }
 }

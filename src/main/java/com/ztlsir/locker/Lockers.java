@@ -5,7 +5,7 @@ import com.ztlsir.locker.exception.LockerFullException;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Lockers {
     private final List<Locker> lockers;
@@ -32,7 +32,7 @@ public class Lockers {
 
     public Ticket saveToMaxRemainingCapacityLocker(Pack pack) {
         return lockers.stream()
-                .max(Comparator.comparing(Locker::getRemainingCapacity))
+                .max(Comparator.comparing(Locker::getRemainCapacity))
                 .orElseThrow(LockerFullException::new)
                 .savePackage(pack);
     }
@@ -43,5 +43,11 @@ public class Lockers {
 
     public boolean isNotFull() {
         return this.lockers.stream().anyMatch(Locker::isNotFull);
+    }
+
+    public List<Report> getItemLockerReports() {
+        return this.lockers.stream()
+                .map(locker -> locker.getReport())
+                .collect(Collectors.toList());
     }
 }

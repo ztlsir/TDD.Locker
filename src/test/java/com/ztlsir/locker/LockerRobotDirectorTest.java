@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * M 2 4
  *   L 2 4
  *
- *todo Given Director管理1个manager，manager管理2个Locker，余量分别为：2和1，容量分别为：6和8
+ *done Given Director管理1个manager，manager管理2个Locker，余量分别为：2和1，容量分别为：6和8
  * When 获取报表
  * Then 获得报表：
  * M 3 14
@@ -88,14 +88,33 @@ public class LockerRobotDirectorTest {
 
     @Test
     public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_one_locker_with_capacity_is_4_and_margin_is_2() {
-        Locker locker = new Locker(4);
-        locker.savePackage(new Pack());
-        locker.savePackage(new Pack());
-        LockerRobotManager manager = LockerRobotManager.create(Arrays.asList(locker));
+        LockerRobotManager manager = LockerRobotManager.create(Arrays.asList(createLocker(4, 2)));
         LockerRobotDirector director = new LockerRobotDirector(manager);
 
-        director.queryReport();
+        director.printReport();
 
-        assertEquals("M 2 4\r\n  L 2 4",outContent.toString());
+        assertEquals("M 2 4\r\n  L 2 4", outContent.toString());
+    }
+
+    @Test
+    public void should_print_report_when_query_report_given_dirctor_manage_one_manager_that_manage_two_locker_with_capacity_is_6_8_and_margin_is_2_1() {
+        LockerRobotManager manager = LockerRobotManager
+                .create(Arrays.asList(
+                        createLocker(6, 2),
+                        createLocker(8, 1)));
+        LockerRobotDirector director = new LockerRobotDirector(manager);
+
+        director.printReport();
+
+        assertEquals("M 3 14\r\n  L 2 6\r\n  L 1 8", outContent.toString());
+    }
+
+    private Locker createLocker(int capacity, int margin) {
+        Locker locker = new Locker(capacity);
+        for (int i = 0; i < capacity - margin; i++) {
+            locker.savePackage(new Pack());
+        }
+
+        return locker;
     }
 }
